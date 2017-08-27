@@ -251,8 +251,11 @@ class AOP_Case_Updates extends Basic
         $admin->retrieveSettings();
 
         $mailer->prepForOutbound();
-        $mailer->setMailerForSystem();
-
+        
+        // Removing standard mailer code and adding call with hard coded address for now
+        // $mailer->setMailerForSystem();
+        $mailer->setMailerForSystemByEmailAccount('support@processfast.com');
+        
         $signatureHTML = '';
         if ($signature && array_key_exists('signature_html', $signature)) {
             $signatureHTML = from_html($signature['signature_html']);

@@ -519,7 +519,10 @@ class CaseUpdatesHook
         $admin->retrieveSettings();
 
         $mailer->prepForOutbound();
-        $mailer->setMailerForSystem();
+
+        // Removing standard mailer code and adding call with hard coded address for now
+        // $mailer->setMailerForSystem();
+        $mailer->setMailerForSystemByEmailAccount('support@processfast.com');
 
         $emailTemplate = new EmailTemplate();
 

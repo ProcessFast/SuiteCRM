@@ -1,6 +1,58 @@
 <?php
-// created: 2014-01-29 09:59:23
+// created: 2017-08-13 18:52:47
 $unified_search_modules_display = array (
+  'Accounts' => 
+  array (
+    'visible' => true,
+  ),
+  'Calls' => 
+  array (
+    'visible' => true,
+  ),
+  'Cases' => 
+  array (
+    'visible' => true,
+  ),
+  'Contacts' => 
+  array (
+    'visible' => true,
+  ),
+  'Documents' => 
+  array (
+    'visible' => true,
+  ),
+  'Leads' => 
+  array (
+    'visible' => true,
+  ),
+  'Meetings' => 
+  array (
+    'visible' => true,
+  ),
+  'Notes' => 
+  array (
+    'visible' => true,
+  ),
+  'Opportunities' => 
+  array (
+    'visible' => true,
+  ),
+  'AOBH_BusinessHours' => 
+  array (
+    'visible' => false,
+  ),
+  'AOD_Index' => 
+  array (
+    'visible' => false,
+  ),
+  'AOD_IndexEvent' => 
+  array (
+    'visible' => false,
+  ),
+  'AOK_Knowledge_Base_Categories' => 
+  array (
+    'visible' => false,
+  ),
   'AOP_Case_Events' => 
   array (
     'visible' => false,
@@ -10,6 +62,10 @@ $unified_search_modules_display = array (
     'visible' => false,
   ),
   'AOR_Reports' => 
+  array (
+    'visible' => false,
+  ),
+  'AOR_Scheduled_Reports' => 
   array (
     'visible' => false,
   ),
@@ -45,17 +101,9 @@ $unified_search_modules_display = array (
   array (
     'visible' => false,
   ),
-  'Accounts' => 
-  array (
-    'visible' => true,
-  ),
   'Bugs' => 
   array (
     'visible' => false,
-  ),
-  'Calls' => 
-  array (
-    'visible' => true,
   ),
   'Calls_Reschedule' => 
   array (
@@ -65,18 +113,6 @@ $unified_search_modules_display = array (
   array (
     'visible' => false,
   ),
-  'Cases' => 
-  array (
-    'visible' => true,
-  ),
-  'Contacts' => 
-  array (
-    'visible' => true,
-  ),
-  'Documents' => 
-  array (
-    'visible' => true,
-  ),
   'FP_Event_Locations' => 
   array (
     'visible' => false,
@@ -85,21 +121,9 @@ $unified_search_modules_display = array (
   array (
     'visible' => false,
   ),
-  'Leads' => 
+  'OutboundEmailAccounts' => 
   array (
-    'visible' => true,
-  ),
-  'Meetings' => 
-  array (
-    'visible' => true,
-  ),
-  'Notes' => 
-  array (
-    'visible' => true,
-  ),
-  'Opportunities' => 
-  array (
-    'visible' => true,
+    'visible' => false,
   ),
   'Project' => 
   array (

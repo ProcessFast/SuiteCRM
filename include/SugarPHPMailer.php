@@ -185,6 +185,42 @@ class SugarPHPMailer extends PHPMailer
     }
 
     /**
+     * BRAD CUSTOM METHOD
+     * Prefills mailer for system
+     */
+    public function setMailerForSystemByEmailAccount($email_account_address)
+    {
+        require_once 'include/OutboundEmail/OutboundEmail.php';
+        $oe = new OutboundEmail();
+        $oe = $oe->getSystemMailerSettingsForSpecifiedAccount($email_account_address);
+
+        // ssl or tcp - keeping outside isSMTP b/c a default may inadvertantly set ssl://
+        $this->protocol = $oe->mail_smtpssl ? 'ssl://' : 'tcp://';
+
+        if ($oe->mail_sendtype === 'SMTP') {
+            //Set mail send type information
+            $this->Mailer = 'smtp';
+            $this->Host = $oe->mail_smtpserver;
+            $this->Port = $oe->mail_smtpport;
+            if ($oe->mail_smtpssl == 1) {
+                $this->SMTPSecure = 'ssl';
+            } // if
+            if ($oe->mail_smtpssl == 2) {
+                $this->SMTPSecure = 'tls';
+            } // if
+            if ($oe->mail_smtpauth_req) {
+                $this->SMTPAuth = true;
+                $this->Username = $oe->mail_smtpuser;
+                $this->Password = $oe->mail_smtppass;
+            }
+        } else {
+            $this->Mailer = 'sendmail';
+        }
+    }
+    
+    
+    
+    /**
      * handles Charset translation for all visual parts of the email.
      */
     public function prepForOutbound()

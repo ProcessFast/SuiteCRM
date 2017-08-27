@@ -415,6 +415,39 @@ class OutboundEmail {
 
 		return $ret;
 	}
+    
+    /**
+	 * BRAD CUSTOM METHOD
+     * Retrieves the system's Outbound options for a specified account
+	 */
+	function getSystemMailerSettingsForSpecifiedAccount($email_account_address) {
+		$q = "SELECT id FROM outbound_email WHERE mail_smtpuser = '$email_account_address'";
+		$r = $this->db->query($q);
+		$a = $this->db->fetchByAssoc($r);
+
+		if(empty($a)) {
+			$this->id = "";
+			$this->name = 'system';
+			$this->type = 'system';
+			$this->user_id = '1';
+			$this->mail_sendtype = 'SMTP';
+			$this->mail_smtptype = 'other';
+			$this->mail_smtpserver = '';
+			$this->mail_smtpport = 25;
+			$this->mail_smtpuser = '';
+			$this->mail_smtppass = '';
+			$this->mail_smtpauth_req = 1;
+			$this->mail_smtpssl = 0;
+			$this->mail_smtpdisplay = $this->_getOutboundServerDisplay($this->mail_smtptype,$this->mail_smtpserver);
+			$this->save();
+			$ret = $this;
+		} else {
+			$ret = $this->retrieve($a['id']);
+		}
+
+		return $ret;
+	}
+    
 
 	/**
 	 * Populates this instance
