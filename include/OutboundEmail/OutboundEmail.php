@@ -1,6 +1,8 @@
 <?php
-if(!defined('sugarEntry') || !sugarEntry) die('Not A Valid Entry Point');
-/*********************************************************************************
+
+if (!defined('sugarEntry') || !sugarEntry)
+    die('Not A Valid Entry Point');
+/* * *******************************************************************************
  * SugarCRM Community Edition is a customer relationship management program developed by
  * SugarCRM, Inc. Copyright (C) 2004-2013 SugarCRM Inc.
 
@@ -36,144 +38,135 @@ if(!defined('sugarEntry') || !sugarEntry) die('Not A Valid Entry Point');
  * SugarCRM" logo and "Supercharged by SuiteCRM" logo. If the display of the logos is not
  * reasonably feasible for  technical reasons, the Appropriate Legal Notices must
  * display the words  "Powered by SugarCRM" and "Supercharged by SuiteCRM".
- ********************************************************************************/
+ * ****************************************************************************** */
 
 /**
  * Outbuound email management
  * @api
  */
 class OutboundEmail {
-	/**
-	 * Necessary
-	 */
-	var $db;
-	var $field_defs = array(
-		'id',
-		'name',
-		'type',
-		'user_id',
-		'mail_sendtype',
-		'mail_smtptype',
-		'mail_smtpserver',
-		'mail_smtpport',
-		'mail_smtpuser',
-		'mail_smtppass',
-		'mail_smtpauth_req',
-		'mail_smtpssl',
-	);
 
-	/**
-	 * Columns
-	 */
-	var $id;
-	var $name;
-	var $type; // user or system
-	var $user_id; // owner
-	var $mail_sendtype; // smtp
-	var $mail_smtptype;
-	var $mail_smtpserver;
-	var $mail_smtpport = 25;
-	var $mail_smtpuser;
-	var $mail_smtppass;
-	var $mail_smtpauth_req; // bool
-	var $mail_smtpssl; // bool
-	var $mail_smtpdisplay; // calculated value, not in DB
-	var $new_with_id = false;
+    /**
+     * Necessary
+     */
+    var $db;
+    var $field_defs = array(
+        'id',
+        'name',
+        'type',
+        'user_id',
+        'mail_sendtype',
+        'mail_smtptype',
+        'mail_smtpserver',
+        'mail_smtpport',
+        'mail_smtpuser',
+        'mail_smtppass',
+        'mail_smtpauth_req',
+        'mail_smtpssl',
+    );
 
-	/**
-	 * Sole constructor
-	 */
-	public function __construct() {
-		$this->db = DBManagerFactory::getInstance();
-	}
+    /**
+     * Columns
+     */
+    var $id;
+    var $name;
+    var $type; // user or system
+    var $user_id; // owner
+    var $mail_sendtype; // smtp
+    var $mail_smtptype;
+    var $mail_smtpserver;
+    var $mail_smtpport = 25;
+    var $mail_smtpuser;
+    var $mail_smtppass;
+    var $mail_smtpauth_req; // bool
+    var $mail_smtpssl; // bool
+    var $mail_smtpdisplay; // calculated value, not in DB
+    var $new_with_id = false;
+
+    /**
+     * Sole constructor
+     */
+    public function __construct() {
+        $this->db = DBManagerFactory::getInstance();
+    }
 
     /**
      * @deprecated deprecated since version 7.6, PHP4 Style Constructors are deprecated and will be remove in 7.8, please update your code, use __construct instead
      */
-    public function OutboundEmail(){
+    public function OutboundEmail() {
         $deprecatedMessage = 'PHP4 Style Constructors are deprecated and will be remove in 7.8, please update your code';
-        if(isset($GLOBALS['log'])) {
+        if (isset($GLOBALS['log'])) {
             $GLOBALS['log']->deprecated($deprecatedMessage);
-        }
-        else {
+        } else {
             trigger_error($deprecatedMessage, E_USER_DEPRECATED);
         }
         self::__construct();
     }
 
+    /**
+     * Retrieves the mailer for a user if they have overriden the username
+     * and password for the default system account.
+     *
+     * @param String $user_id
+     */
+    function getUsersMailerForSystemOverride($user_id) {
+        $query = "SELECT id FROM outbound_email WHERE user_id = '{$user_id}' AND type = 'system-override' ORDER BY name";
+        $rs = $this->db->query($query);
+        $row = $this->db->fetchByAssoc($rs);
+        if (!empty($row['id'])) {
+            $oe = new OutboundEmail();
+            $oe->retrieve($row['id']);
+            return $oe;
+        } else
+            return null;
+    }
 
-	/**
-	 * Retrieves the mailer for a user if they have overriden the username
-	 * and password for the default system account.
-	 *
-	 * @param String $user_id
-	 */
-	function getUsersMailerForSystemOverride($user_id)
-	{
-	    $query = "SELECT id FROM outbound_email WHERE user_id = '{$user_id}' AND type = 'system-override' ORDER BY name";
-		$rs = $this->db->query($query);
-		$row = $this->db->fetchByAssoc($rs);
-		if(!empty($row['id']))
-		{
-		  $oe = new OutboundEmail();
-		  $oe->retrieve($row['id']);
-		  return $oe;
-		}
-		else
-		  return null;
-	}
+    /**
+     * Duplicate the system account for a user, setting new parameters specific to the user.
+     *
+     * @param string $user_id
+     * @param string $user_name
+     * @param string $user_pass
+     */
+    function createUserSystemOverrideAccount($user_id, $user_name = "", $user_pass = "") {
+        $ob = $this->getSystemMailerSettings();
+        $ob->id = create_guid();
+        $ob->new_with_id = true;
+        $ob->user_id = $user_id;
+        $ob->type = 'system-override';
+        $ob->mail_smtpuser = $user_name;
+        $ob->mail_smtppass = $user_pass;
+        $ob->save();
 
-	/**
-	 * Duplicate the system account for a user, setting new parameters specific to the user.
-	 *
-	 * @param string $user_id
-	 * @param string $user_name
-	 * @param string $user_pass
-	 */
-	function createUserSystemOverrideAccount($user_id,$user_name = "",$user_pass = "")
-	{
-	    $ob = $this->getSystemMailerSettings();
-	    $ob->id = create_guid();
-	    $ob->new_with_id = true;
-	    $ob->user_id = $user_id;
-	    $ob->type = 'system-override';
-	    $ob->mail_smtpuser = $user_name;
-	    $ob->mail_smtppass = $user_pass;
-	    $ob->save();
+        return $ob;
+    }
 
-	    return $ob;
-	}
+    /**
+     * Determines if a user needs to set their user name/password for their system
+     * override account.
+     *
+     * @param unknown_type $user_id
+     * @return unknown
+     */
+    function doesUserOverrideAccountRequireCredentials($user_id) {
+        $userCredentialsReq = false;
+        $sys = new OutboundEmail();
+        $ob = $sys->getSystemMailerSettings(); //Dirties '$this'
+        //If auth for system account is disabled or user can use system outbound account return false.
+        if ($ob->mail_smtpauth_req == 0 || $this->isAllowUserAccessToSystemDefaultOutbound() || $this->mail_sendtype == 'sendmail')
+            return $userCredentialsReq;
 
-	/**
-	 * Determines if a user needs to set their user name/password for their system
-	 * override account.
-	 *
-	 * @param unknown_type $user_id
-	 * @return unknown
-	 */
-	function doesUserOverrideAccountRequireCredentials($user_id)
-	{
-	    $userCredentialsReq = false;
-	    $sys = new OutboundEmail();
-	    $ob = $sys->getSystemMailerSettings(); //Dirties '$this'
-
-	    //If auth for system account is disabled or user can use system outbound account return false.
-	    if($ob->mail_smtpauth_req == 0 || $this->isAllowUserAccessToSystemDefaultOutbound() || $this->mail_sendtype == 'sendmail')
-	       return $userCredentialsReq;
-
-	    $userOverideAccount = $this->getUsersMailerForSystemOverride($user_id);
-	    if( $userOverideAccount == null || empty($userOverideAccount->mail_smtpuser) || empty($userOverideAccount->mail_smtpuser) )
-	       $userCredentialsReq = true;
+        $userOverideAccount = $this->getUsersMailerForSystemOverride($user_id);
+        if ($userOverideAccount == null || empty($userOverideAccount->mail_smtpuser) || empty($userOverideAccount->mail_smtpuser))
+            $userCredentialsReq = true;
 
         return $userCredentialsReq;
+    }
 
-	}
-
-	/**
-	 * Retrieves name value pairs for opts lists
-	 */
-    function getUserMailers($user)
-    {
+    /**
+     * Retrieves name value pairs for opts lists
+     */
+    function getUserMailers($user) {
         global $app_strings;
 
         $q = "SELECT * FROM outbound_email WHERE user_id = '{$user->id}' AND type = 'user' ORDER BY name";
@@ -253,443 +246,453 @@ class OutboundEmail {
         return $ret;
     }
 
-	/**
-	 * Retrieves a cascading mailer set
-	 * @param object user
-	 * @param string mailer_id
-	 * @return object
-	 */
-	function getUserMailerSettings(&$user, $mailer_id='', $ieId='') {
-		$mailer = '';
+    /**
+     * Retrieves a cascading mailer set
+     * @param object user
+     * @param string mailer_id
+     * @return object
+     */
+    function getUserMailerSettings(&$user, $mailer_id = '', $ieId = '') {
+        $mailer = '';
 
-		if(!empty($mailer_id)) {
-			$mailer = "AND id = '{$mailer_id}'";
-		} elseif(!empty($ieId)) {
-			$q = "SELECT stored_options FROM inbound_email WHERE id = '{$ieId}'";
-			$r = $this->db->query($q);
-			$a = $this->db->fetchByAssoc($r);
+        if (!empty($mailer_id)) {
+            $mailer = "AND id = '{$mailer_id}'";
+        } elseif (!empty($ieId)) {
+            $q = "SELECT stored_options FROM inbound_email WHERE id = '{$ieId}'";
+            $r = $this->db->query($q);
+            $a = $this->db->fetchByAssoc($r);
 
-			if(!empty($a)) {
-				$opts = unserialize(base64_decode($a['stored_options']));
+            if (!empty($a)) {
+                $opts = unserialize(base64_decode($a['stored_options']));
 
-				if(isset($opts['outbound_email'])) {
-					$mailer = "AND id = '{$opts['outbound_email']}'";
-				}
-			}
-		}
+                if (isset($opts['outbound_email'])) {
+                    $mailer = "AND id = '{$opts['outbound_email']}'";
+                }
+            }
+        }
 
-		$q = "SELECT id FROM outbound_email WHERE user_id = '{$user->id}' {$mailer}";
-		$r = $this->db->query($q);
-		$a = $this->db->fetchByAssoc($r);
+        $q = "SELECT id FROM outbound_email WHERE user_id = '{$user->id}' {$mailer}";
+        $r = $this->db->query($q);
+        $a = $this->db->fetchByAssoc($r);
 
-		if(empty($a)) {
-			$ret = $this->getSystemMailerSettings();
-		} else {
-			$ret = $this->retrieve($a['id']);
-		}
-		return $ret;
-	}
+        if (empty($a)) {
+            $ret = $this->getSystemMailerSettings();
+        } else {
+            $ret = $this->retrieve($a['id']);
+        }
+        return $ret;
+    }
 
-	/**
-	 * Retrieve an array containing inbound emails ids for all inbound email accounts which have
-	 * their outbound account set to this object.
-	 *
-	 * @param SugarBean $user
-	 * @param string $outbound_id
-	 * @return array
-	 */
-	function getAssociatedInboundAccounts($user)
-	{
-	    $query = "SELECT id,stored_options FROM inbound_email WHERE is_personal='1' AND deleted='0' AND created_by = '{$user->id}'";
-		$rs = $this->db->query($query);
+    /**
+     * Retrieve an array containing inbound emails ids for all inbound email accounts which have
+     * their outbound account set to this object.
+     *
+     * @param SugarBean $user
+     * @param string $outbound_id
+     * @return array
+     */
+    function getAssociatedInboundAccounts($user) {
+        $query = "SELECT id,stored_options FROM inbound_email WHERE is_personal='1' AND deleted='0' AND created_by = '{$user->id}'";
+        $rs = $this->db->query($query);
 
         $results = array();
-        while($row = $this->db->fetchByAssoc($rs) )
-        {
+        while ($row = $this->db->fetchByAssoc($rs)) {
             $opts = unserialize(base64_decode($row['stored_options']));
-            if( isset($opts['outbound_email']) && $opts['outbound_email'] == $this->id)
-            {
+            if (isset($opts['outbound_email']) && $opts['outbound_email'] == $this->id) {
                 $results[] = $row['id'];
             }
-		}
+        }
 
-		return $results;
-	}
+        return $results;
+    }
 
-	/**
-	 * Retrieves a cascading mailer set
-	 * @param object user
-	 * @param string mailer_id
-	 * @return object
-	 */
-	function getInboundMailerSettings($user, $mailer_id='', $ieId='') {
-		$mailer = '';
+    /**
+     * Retrieves a cascading mailer set
+     * @param object user
+     * @param string mailer_id
+     * @return object
+     */
+    function getInboundMailerSettings($user, $mailer_id = '', $ieId = '') {
+        $mailer = '';
 
-		if(!empty($mailer_id)) {
-			$mailer = "id = '{$mailer_id}'";
-		} elseif(!empty($ieId)) {
-			$q = "SELECT stored_options FROM inbound_email WHERE id = '{$ieId}'";
-			$r = $this->db->query($q);
-			$a = $this->db->fetchByAssoc($r);
+        if (!empty($mailer_id)) {
+            $mailer = "id = '{$mailer_id}'";
+        } elseif (!empty($ieId)) {
+            $q = "SELECT stored_options FROM inbound_email WHERE id = '{$ieId}'";
+            $r = $this->db->query($q);
+            $a = $this->db->fetchByAssoc($r);
 
-			if(!empty($a)) {
-				$opts = unserialize(base64_decode($a['stored_options']));
+            if (!empty($a)) {
+                $opts = unserialize(base64_decode($a['stored_options']));
 
-				if(isset($opts['outbound_email'])) {
-					$mailer = "id = '{$opts['outbound_email']}'";
-				} 
-                elseif( isset($opts['from_addr']) ){
+                if (isset($opts['outbound_email'])) {
+                    $mailer = "id = '{$opts['outbound_email']}'";
+                } elseif (isset($opts['from_addr'])) {
                     // Lookup outbound email settings for this account
-                    $account = $this->getOutgoingMailerSettingsForSpecificAccount( $opts['from_addr'] );
+                    $account = $this->getOutgoingMailerSettingsForSpecificAccount($opts['from_addr']);
                     $mailer = "id = '{$account->id}'";
+                } else {
+                    $mailer = "id = '{$ieId}'";
                 }
-                else {
-					$mailer = "id = '{$ieId}'";
-				}
-			} else {
-				// its possible that its an system account
-				$mailer = "id = '{$ieId}'";
-			}
-		}
+            } else {
+                // its possible that its an system account
+                $mailer = "id = '{$ieId}'";
+            }
+        }
 
-		if (empty($mailer)) {
-			$mailer = "type = 'system'";
-		} // if
+        if (empty($mailer)) {
+            $mailer = "type = 'system'";
+        } // if
 
-		$q = "SELECT id FROM outbound_email WHERE {$mailer}";
-		$r = $this->db->query($q);
-		$a = $this->db->fetchByAssoc($r);
+        $q = "SELECT id FROM outbound_email WHERE {$mailer}";
+        $r = $this->db->query($q);
+        $a = $this->db->fetchByAssoc($r);
 
-		if(empty($a)) {
-			$ret = $this->getSystemMailerSettings();
-		} else {
-			$ret = $this->retrieve($a['id']);
-		}
-		return $ret;
-	}
+        if (empty($a)) {
+            $ret = $this->getSystemMailerSettings();
+        } else {
+            $ret = $this->retrieve($a['id']);
+        }
+        return $ret;
+    }
 
-	/**
-	 *  Determine if the user is allowed to use the current system outbound connection.
-	 */
-	function isAllowUserAccessToSystemDefaultOutbound()
-	{
-	    $allowAccess = false;
+    /**
+     *  Determine if the user is allowed to use the current system outbound connection.
+     */
+    function isAllowUserAccessToSystemDefaultOutbound() {
+        $allowAccess = false;
 
-	    // first check that a system default exists
-	    $q = "SELECT id FROM outbound_email WHERE type = 'system'";
-		$r = $this->db->query($q);
-		$a = $this->db->fetchByAssoc($r);
-		if (!empty($a)) {
-		    // next see if the admin preference for using the system outbound is set
+        // first check that a system default exists
+        $q = "SELECT id FROM outbound_email WHERE type = 'system'";
+        $r = $this->db->query($q);
+        $a = $this->db->fetchByAssoc($r);
+        if (!empty($a)) {
+            // next see if the admin preference for using the system outbound is set
             $admin = new Administration();
-            $admin->retrieveSettings('',true);
-            if (isset($admin->settings['notify_allow_default_outbound'])
-                &&  $admin->settings['notify_allow_default_outbound'] == 2 )
+            $admin->retrieveSettings('', true);
+            if (isset($admin->settings['notify_allow_default_outbound']) && $admin->settings['notify_allow_default_outbound'] == 2)
                 $allowAccess = true;
         }
 
         return $allowAccess;
-	}
+    }
 
-	/**
-	 * Retrieves the system's Outbound options
-	 */
-	function getSystemMailerSettings() {
-		$q = "SELECT id FROM outbound_email WHERE type = 'system'";
-		$r = $this->db->query($q);
-		$a = $this->db->fetchByAssoc($r);
-
-		if(empty($a)) {
-			$this->id = "";
-			$this->name = 'system';
-			$this->type = 'system';
-			$this->user_id = '1';
-			$this->mail_sendtype = 'SMTP';
-			$this->mail_smtptype = 'other';
-			$this->mail_smtpserver = '';
-			$this->mail_smtpport = 25;
-			$this->mail_smtpuser = '';
-			$this->mail_smtppass = '';
-			$this->mail_smtpauth_req = 1;
-			$this->mail_smtpssl = 0;
-			$this->mail_smtpdisplay = $this->_getOutboundServerDisplay($this->mail_smtptype,$this->mail_smtpserver);
-			$this->save();
-			$ret = $this;
-		} else {
-			$ret = $this->retrieve($a['id']);
-		}
-
-		return $ret;
-	}
-    
-        /**
-	 * BRAD CUSTOM METHOD
-     * Retrieves the system's Outbound options for a specified account
-	 */
-	function getSystemMailerSettingsForSpecifiedAccount($email_account_address) {
-		$q = "SELECT id FROM outbound_email WHERE mail_smtpuser = '$email_account_address'";
-		$r = $this->db->query($q);
-		$a = $this->db->fetchByAssoc($r);
-
-		if(empty($a)) {
-			$this->id = "";
-			$this->name = 'system';
-			$this->type = 'system';
-			$this->user_id = '1';
-			$this->mail_sendtype = 'SMTP';
-			$this->mail_smtptype = 'other';
-			$this->mail_smtpserver = '';
-			$this->mail_smtpport = 25;
-			$this->mail_smtpuser = '';
-			$this->mail_smtppass = '';
-			$this->mail_smtpauth_req = 1;
-			$this->mail_smtpssl = 0;
-			$this->mail_smtpdisplay = $this->_getOutboundServerDisplay($this->mail_smtptype,$this->mail_smtpserver);
-			$this->save();
-			$ret = $this;
-		} else {
-			$ret = $this->retrieve($a['id']);
-		}
-
-		return $ret;
-	}
-    
-    
     /**
-	 * 
+     * Retrieves the system's Outbound options
+     */
+    function getSystemMailerSettings() {
+        $q = "SELECT id FROM outbound_email WHERE type = 'system'";
+        $r = $this->db->query($q);
+        $a = $this->db->fetchByAssoc($r);
+
+        if (empty($a)) {
+            $this->id = "";
+            $this->name = 'system';
+            $this->type = 'system';
+            $this->user_id = '1';
+            $this->mail_sendtype = 'SMTP';
+            $this->mail_smtptype = 'other';
+            $this->mail_smtpserver = '';
+            $this->mail_smtpport = 25;
+            $this->mail_smtpuser = '';
+            $this->mail_smtppass = '';
+            $this->mail_smtpauth_req = 1;
+            $this->mail_smtpssl = 0;
+            $this->mail_smtpdisplay = $this->_getOutboundServerDisplay($this->mail_smtptype, $this->mail_smtpserver);
+            $this->save();
+            $ret = $this;
+        } else {
+            $ret = $this->retrieve($a['id']);
+        }
+
+        return $ret;
+    }
+
+    /**
+     * BRAD CUSTOM METHOD
+     * Retrieves the system's Outbound options for a specified account
+     */
+    function getSystemMailerSettingsForSpecifiedAccount($email_account_address) {
+        $q = "SELECT id FROM outbound_email WHERE mail_smtpuser = '$email_account_address'";
+        $r = $this->db->query($q);
+        $a = $this->db->fetchByAssoc($r);
+
+        if (empty($a)) {
+            $this->id = "";
+            $this->name = 'system';
+            $this->type = 'system';
+            $this->user_id = '1';
+            $this->mail_sendtype = 'SMTP';
+            $this->mail_smtptype = 'other';
+            $this->mail_smtpserver = '';
+            $this->mail_smtpport = 25;
+            $this->mail_smtpuser = '';
+            $this->mail_smtppass = '';
+            $this->mail_smtpauth_req = 1;
+            $this->mail_smtpssl = 0;
+            $this->mail_smtpdisplay = $this->_getOutboundServerDisplay($this->mail_smtptype, $this->mail_smtpserver);
+            $this->save();
+            $ret = $this;
+        } else {
+            $ret = $this->retrieve($a['id']);
+        }
+
+        return $ret;
+    }
+
+    /**
+     * 
      * Retrieves the system's Outbound options for a specified email address
-	 */
-	function getOutgoingMailerSettingsForSpecificAccount($email_account_address) {
-		$q = "SELECT id FROM outbound_email WHERE deleted = 0 and mail_smtpuser = '$email_account_address'";
-		$r = $this->db->query($q);
-		$a = $this->db->fetchByAssoc($r);
+     */
+    function getOutgoingMailerSettingsForSpecificAccount($email_account_address) {
+        $q = "SELECT id FROM outbound_email WHERE deleted = 0 and mail_smtpuser = '$email_account_address'";
+        $r = $this->db->query($q);
+        $a = $this->db->fetchByAssoc($r);
 
-		if(empty($a)) {
-			$this->id = "";
-			$this->name = 'system';
-			$this->type = 'system';
-			$this->user_id = '1';
-			$this->mail_sendtype = 'SMTP';
-			$this->mail_smtptype = 'other';
-			$this->mail_smtpserver = '';
-			$this->mail_smtpport = 25;
-			$this->mail_smtpuser = '';
-			$this->mail_smtppass = '';
-			$this->mail_smtpauth_req = 1;
-			$this->mail_smtpssl = 0;
-			$this->mail_smtpdisplay = $this->_getOutboundServerDisplay($this->mail_smtptype,$this->mail_smtpserver);
-			$this->save();
-			$ret = $this;
-		} else {
-			$ret = $this->retrieve($a['id']);
-		}
+        if (empty($a)) {
+            $this->id = "";
+            $this->name = 'system';
+            $this->type = 'system';
+            $this->user_id = '1';
+            $this->mail_sendtype = 'SMTP';
+            $this->mail_smtptype = 'other';
+            $this->mail_smtpserver = '';
+            $this->mail_smtpport = 25;
+            $this->mail_smtpuser = '';
+            $this->mail_smtppass = '';
+            $this->mail_smtpauth_req = 1;
+            $this->mail_smtpssl = 0;
+            $this->mail_smtpdisplay = $this->_getOutboundServerDisplay($this->mail_smtptype, $this->mail_smtpserver);
+            $this->save();
+            $ret = $this;
+        } else {
+            $ret = $this->retrieve($a['id']);
+        }
 
-		return $ret;
-	}
-    
+        return $ret;
+    }
 
-	/**
-	 * Populates this instance
-	 * @param string $id
-	 * @return object $this
-	 */
-	function retrieve($id) {
-		require_once('include/utils/encryption_utils.php');
-		$q = "SELECT * FROM outbound_email WHERE id = '{$id}'";
-		$r = $this->db->query($q);
-		$a = $this->db->fetchByAssoc($r);
+    /**
+     * Populates this instance
+     * @param string $id
+     * @return object $this
+     */
+    function retrieve($id) {
+        require_once('include/utils/encryption_utils.php');
+        $q = "SELECT * FROM outbound_email WHERE id = '{$id}'";
+        $r = $this->db->query($q);
+        $a = $this->db->fetchByAssoc($r);
 
-		if(!empty($a)) {
-			foreach($a as $k => $v) {
-				if ($k == 'mail_smtppass' && !empty($v)) {
-					$this->$k = blowfishDecode(blowfishGetKey('OutBoundEmail'), $v);
-				} else {
-					$this->$k = $v;
-				} // else
-			}
-			if ( !empty($a['mail_smtptype']) )
-			    $this->mail_smtpdisplay = $this->_getOutboundServerDisplay($a['mail_smtptype'],$a['mail_smtpserver']);
-			else
-			    $this->mail_smtpdisplay = $a['mail_smtpserver'];
-		}
+        if (!empty($a)) {
+            foreach ($a as $k => $v) {
+                if ($k == 'mail_smtppass' && !empty($v)) {
+                    $this->$k = blowfishDecode(blowfishGetKey('OutBoundEmail'), $v);
+                } else {
+                    $this->$k = $v;
+                } // else
+            }
+            if (!empty($a['mail_smtptype']))
+                $this->mail_smtpdisplay = $this->_getOutboundServerDisplay($a['mail_smtptype'], $a['mail_smtpserver']);
+            else
+                $this->mail_smtpdisplay = $a['mail_smtpserver'];
+        }
 
-		return $this;
-	}
+        return $this;
+    }
 
-	function populateFromPost() {
-		foreach($this->field_defs as $def) {
-			if(isset($_POST[$def])) {
-				$this->$def = $_POST[$def];
-			} else if ($def != 'mail_smtppass') {
-				$this->$def = "";
-			}
-		}
-	}
+    function populateFromPost() {
+        foreach ($this->field_defs as $def) {
+            if (isset($_POST[$def])) {
+                $this->$def = $_POST[$def];
+            } else if ($def != 'mail_smtppass') {
+                $this->$def = "";
+            }
+        }
+    }
 
-	/**
-	 * Generate values for saving into outbound_emails table
-	 * @param array $keys
-	 * @return array
-	 */
-	protected function getValues(&$keys)
-	{
-	    $values = array();
-            $validKeys = array();
+    /**
+     * Generate values for saving into outbound_emails table
+     * @param array $keys
+     * @return array
+     */
+    protected function getValues(&$keys) {
+        $values = array();
+        $validKeys = array();
 
-	    foreach($keys as $def) {
-	    	if ($def == 'mail_smtppass' && !empty($this->$def)) {
-	    		$this->$def = blowfishEncode(blowfishGetKey('OutBoundEmail'), $this->$def);
-	    	} // if
-	    	if($def == 'mail_smtpauth_req' || $def == 'mail_smtpssl' || $def == 'mail_smtpport'){
-	    		if(empty($this->$def)){
-	    			$this->$def = 0;
-	    		}
-	    		$values[] = intval($this->$def);
-                        $validKeys[] = $def;
-	    	} else if (isset($this->$def)) {
-	    		$values[] = $this->db->quoted($this->$def);
-                        $validKeys[] = $def;
-	    	}
-	    }
-            $keys = $validKeys;
-	    return $values;
-	}
+        foreach ($keys as $def) {
+            if ($def == 'mail_smtppass' && !empty($this->$def)) {
+                $this->$def = blowfishEncode(blowfishGetKey('OutBoundEmail'), $this->$def);
+            } // if
+            if ($def == 'mail_smtpauth_req' || $def == 'mail_smtpssl' || $def == 'mail_smtpport') {
+                if (empty($this->$def)) {
+                    $this->$def = 0;
+                }
+                $values[] = intval($this->$def);
+                $validKeys[] = $def;
+            } else if (isset($this->$def)) {
+                $values[] = $this->db->quoted($this->$def);
+                $validKeys[] = $def;
+            }
+        }
+        $keys = $validKeys;
+        return $values;
+    }
 
-	/**
-	 * saves an instance
-	 */
-	function save() {
-		require_once('include/utils/encryption_utils.php');
-	    if( empty($this->id) ) {
-	        $this->id = create_guid();
-			$this->new_with_id = true;
-		}
+    /**
+     * saves an instance
+     */
+    function save() {
+        require_once('include/utils/encryption_utils.php');
+        if (empty($this->id)) {
+            $this->id = create_guid();
+            $this->new_with_id = true;
+        }
 
-		$cols = $this->field_defs;
-		$values = $this->getValues($cols);
+        $cols = $this->field_defs;
+        $values = $this->getValues($cols);
 
-		if($this->new_with_id) {
-			$q  = sprintf("INSERT INTO outbound_email (%s) VALUES (%s)", implode($cols, ","), implode($values, ","));
-		} else {
-		    $updvalues = array();
-		    foreach($values as $k => $val) {
-		        $updvalues[] = "{$cols[$k]} = $val";
-		    }
-			$q = "UPDATE outbound_email SET ".implode(', ', $updvalues)." WHERE id = ".$this->db->quoted($this->id);
-		}
+        if ($this->new_with_id) {
+            $q = sprintf("INSERT INTO outbound_email (%s) VALUES (%s)", implode($cols, ","), implode($values, ","));
+        } else {
+            $updvalues = array();
+            foreach ($values as $k => $val) {
+                $updvalues[] = "{$cols[$k]} = $val";
+            }
+            $q = "UPDATE outbound_email SET " . implode(', ', $updvalues) . " WHERE id = " . $this->db->quoted($this->id);
+        }
 
-		$this->db->query($q, true);
-		return $this;
-	}
+        $this->db->query($q, true);
+        return $this;
+    }
 
-	/**
-	 * Saves system mailer.  Presumes all values are filled.
-	 */
-	function saveSystem() {
-		$q = "SELECT id FROM outbound_email WHERE type = 'system'";
-		$r = $this->db->query($q);
-		$a = $this->db->fetchByAssoc($r);
+    /**
+     * Saves system mailer.  Presumes all values are filled.
+     */
+    function saveSystem() {
+        $q = "SELECT id FROM outbound_email WHERE type = 'system'";
+        $r = $this->db->query($q);
+        $a = $this->db->fetchByAssoc($r);
 
-		if(empty($a)) {
-			$a['id'] = ''; // trigger insert
-		}
+        if (empty($a)) {
+            $a['id'] = ''; // trigger insert
+        }
 
-		$this->id = $a['id'];
-		$this->name = 'system';
-		$this->type = 'system';
-		$this->user_id = '1';
-		$this->save();
+        $this->id = $a['id'];
+        $this->name = 'system';
+        $this->type = 'system';
+        $this->user_id = '1';
+        $this->save();
 
-		$this->updateUserSystemOverrideAccounts();
+        $this->updateUserSystemOverrideAccounts();
+    }
 
-	}
+    /**
+     * Update the user system override accounts with the system information if anything has changed.
+     *
+     */
+    function updateUserSystemOverrideAccounts() {
+        require_once('include/utils/encryption_utils.php');
+        $updateFields = array('mail_smtptype', 'mail_sendtype', 'mail_smtpserver', 'mail_smtpport', 'mail_smtpauth_req', 'mail_smtpssl');
 
-	/**
-	 * Update the user system override accounts with the system information if anything has changed.
-	 *
-	 */
-	function updateUserSystemOverrideAccounts()
-	{
-		require_once('include/utils/encryption_utils.php');
-	    $updateFields = array('mail_smtptype','mail_sendtype','mail_smtpserver', 'mail_smtpport','mail_smtpauth_req','mail_smtpssl');
-
-	    //Update the username ans password for the override accounts if alloweed access.
-	    if( $this->isAllowUserAccessToSystemDefaultOutbound() )
-	    {
-	        $updateFields[] = 'mail_smtpuser';
-	        $updateFields[] = 'mail_smtppass';
-	    }
+        //Update the username ans password for the override accounts if alloweed access.
+        if ($this->isAllowUserAccessToSystemDefaultOutbound()) {
+            $updateFields[] = 'mail_smtpuser';
+            $updateFields[] = 'mail_smtppass';
+        }
         $values = $this->getValues($updateFields);
         $updvalues = array();
-		foreach($values as $k => $val) {
-		        $updvalues[] = "{$updateFields[$k]} = $val";
-		}
-        $query = "UPDATE outbound_email set ".implode(', ', $updvalues)." WHERE type='system-override' ";
-
-	    $this->db->query($query);
-	}
-	/**
-	 * Remove all of the user override accounts.
-	 *
-	 */
-	function removeUserOverrideAccounts()
-	{
-	    $query = "DELETE FROM outbound_email WHERE type = 'system-override'";
-		return $this->db->query($query);
-	}
-	/**
-	 * Deletes an instance
-	 */
-	function delete() {
-		if(empty($this->id)) {
-			return false;
-		}
-
-		$q = "DELETE FROM outbound_email WHERE id = ".$this->db->quoted($this->id);
-		return $this->db->query($q);
-	}
-
-	private function _getOutboundServerDisplay(
-	    $smtptype,
-	    $smtpserver
-	    )
-	{
-	    global $app_strings;
-
-	    switch ($smtptype) {
-        case "yahoomail":
-            return $app_strings['LBL_SMTPTYPE_YAHOO']; break;
-        case "gmail":
-            return $app_strings['LBL_SMTPTYPE_GMAIL']; break;
-        case "exchange":
-            return $smtpserver . ' - ' . $app_strings['LBL_SMTPTYPE_EXCHANGE']; break;
-        default:
-            return $smtpserver; break;
+        foreach ($values as $k => $val) {
+            $updvalues[] = "{$updateFields[$k]} = $val";
         }
-	}
+        $query = "UPDATE outbound_email set " . implode(', ', $updvalues) . " WHERE type='system-override' ";
 
-	/**
-	 * Get mailer for current user by name
-	 * @param User $user
-	 * @param string $name
-	 * @return OutboundEmail|false
-	 */
-	public function getMailerByName($user, $name)
-	{
-	    if($name == "system" && !$this->isAllowUserAccessToSystemDefaultOutbound()) {
-	        $oe = $this->getUsersMailerForSystemOverride($user->id);
-	        if(!empty($oe) && !empty($oe->id)) {
-	            return $oe;
-	        }
-            else  {
-                return $this->getSystemMailerSettings();
-            }
-	    }
-	    $res = $this->db->query("SELECT id FROM outbound_email WHERE user_id = '{$user->id}' AND name='".$this->db->quote($name)."'");
-		$a = $this->db->fetchByAssoc($res);
-        if(!isset($a['id'])) {
+        $this->db->query($query);
+    }
+
+    /**
+     * Remove all of the user override accounts.
+     *
+     */
+    function removeUserOverrideAccounts() {
+        $query = "DELETE FROM outbound_email WHERE type = 'system-override'";
+        return $this->db->query($query);
+    }
+
+    /**
+     * Deletes an instance
+     */
+    function delete() {
+        if (empty($this->id)) {
             return false;
         }
-	    return $this->retrieve($a['id']);
-	}
+
+        $q = "DELETE FROM outbound_email WHERE id = " . $this->db->quoted($this->id);
+        return $this->db->query($q);
+    }
+
+    private function _getOutboundServerDisplay(
+    $smtptype, $smtpserver
+    ) {
+        global $app_strings;
+
+        switch ($smtptype) {
+            case "yahoomail":
+                return $app_strings['LBL_SMTPTYPE_YAHOO'];
+                break;
+            case "gmail":
+                return $app_strings['LBL_SMTPTYPE_GMAIL'];
+                break;
+            case "exchange":
+                return $smtpserver . ' - ' . $app_strings['LBL_SMTPTYPE_EXCHANGE'];
+                break;
+            default:
+                return $smtpserver;
+                break;
+        }
+    }
+
+    /**
+     * Get mailer for current user by name
+     * @param User $user
+     * @param string $name
+     * @return OutboundEmail|false
+     */
+    public function getMailerByName($user, $name) {
+        if ($name == "system" && !$this->isAllowUserAccessToSystemDefaultOutbound()) {
+            $oe = $this->getUsersMailerForSystemOverride($user->id);
+            if (!empty($oe) && !empty($oe->id)) {
+                return $oe;
+            } else {
+                return $this->getSystemMailerSettings();
+            }
+        }
+        $res = $this->db->query("SELECT id FROM outbound_email WHERE user_id = '{$user->id}' AND name='" . $this->db->quote($name) . "'");
+        $a = $this->db->fetchByAssoc($res);
+        if (!isset($a['id'])) {
+            return false;
+        }
+        return $this->retrieve($a['id']);
+    }
+
+    /**
+     * Retrieve an array containing outbound emails records for all outbound email accounts 
+     * which are assigned to particular user
+     *
+     * @param SugarBean $user
+     * @return array
+     */
+    function getOutboundAccounts($user=NULL) {
+        $query = "SELECT * FROM outbound_email "
+                . "WHERE deleted='0' ";
+        if(!empty($user)){
+            $query .= " AND (user_id = '{$user->id}' OR type='system') ";
+        }
+        $rs = $this->db->query($query);
+        $results = array();
+        while ($row = $this->db->fetchByAssoc($rs)) {
+            $results[] = $row;
+        }
+        return $results;
+    }
+
 }

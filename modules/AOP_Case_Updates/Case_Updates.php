@@ -90,6 +90,7 @@ function caseUpdates(record){
     loadingMessgPanl.show();
 
     var update_data = encodeURIComponent(document.getElementById('update_text').value);
+    var from_email_address_data = encodeURIComponent(document.getElementById('from_email_address').value);        
     var checkbox = document.getElementById('internal').checked;
     var internal = "";
     if(checkbox){
@@ -98,9 +99,8 @@ function caseUpdates(record){
 
     //Post parameters
 
-    var params =
-        "record="+record+"&module=Cases&return_module=Cases&action=Save&return_id="+record+"&return_action=DetailView&relate_to=Cases&relate_id="+record+"&offset=1&update_text="
-        + update_data + "&internal=" + internal;
+    var params = "record="+record+"&module=Cases&return_module=Cases&action=Save&return_id="+record+"&return_action=DetailView&relate_to=Cases&relate_id="+record+"&offset=1&from_email_address="+from_email_address_data+"&update_text="+ update_data + "&internal=" + internal;
+    alert(params);
 
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.open("POST", "index.php", true);
@@ -348,8 +348,21 @@ function quick_edit_case_updates($case)
     $saveBtn = $app_strings['LBL_SAVE_BUTTON_LABEL'];
     $saveTitle = $app_strings['LBL_SAVE_BUTTON_TITLE'];
 
+    //Get Users roles
+    require_once 'include/OutboundEmail/OutboundEmail.php';
+    $outboundEmailObject = new OutboundEmail();
+    $outboundEmailList = $outboundEmailObject->getOutboundAccounts($user);
+    
+    $outboundEmailOptions = "";
+    foreach ($outboundEmailList as $value) {
+        $outboundEmailOptions .= "<option value='".$value['mail_smtpuser']."'>".strtoupper($value['type'])." - ".$value['mail_smtpuser']."</option>";
+    }
+    
     $html = <<< EOD
     <form id='case_updates' enctype="multipart/form-data">
+            
+    <div><label for="from_email_address">{$mod_strings['LBL_FROM_EMAIL_ADDRESS']}</label></div>
+    <select id="from_email_address" name="from_email_address" style="margin:0 0 10px 10px;">{$outboundEmailOptions}</select>   
 
     <div><label for="update_text">{$mod_strings['LBL_UPDATE_TEXT']}</label></div>
     <textarea id="update_text" name="update_text" cols="80" rows="4"></textarea>
