@@ -116,6 +116,7 @@ $mod_strings = array(
     'LBL_MODIFIED_USER_NAME' => 'Modified User Name',
 
     // SNIP
+    'LBL_FROM_EMAIL_ADDRESS' => 'From Email Address',
     'LBL_UPDATE_TEXT' => 'Update Text',
     'LBL_INTERNAL' => 'Internal Update',
     'LBL_AOP_CASE_UPDATES' => 'Case Updates',

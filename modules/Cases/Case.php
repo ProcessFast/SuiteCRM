@@ -65,6 +65,7 @@ class aCase extends Basic
     public $status;
     public $priority;
     public $state;
+    public $from_email_address;
     public $update_text;
     public $internal;
     public $send_closure_email;

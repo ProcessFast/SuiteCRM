@@ -522,7 +522,9 @@ class CaseUpdatesHook
 
         // Removing standard mailer code and adding call with hard coded address for now
         // $mailer->setMailerForSystem();
-        $mailer->setMailerForSystemByEmailAccount('support@processfast.com');
+        //$mailer->setMailerForSystemByEmailAccount('support@processfast.com');
+        $settings_cache = sugar_cache_retrieve('admin_settings_cache');
+        $mailer->setMailerForSystemByEmailAccount($settings_cache['mail_smtpuser']);
 
         $emailTemplate = new EmailTemplate();
 

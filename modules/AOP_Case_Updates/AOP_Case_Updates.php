@@ -252,9 +252,16 @@ class AOP_Case_Updates extends Basic
 
         $mailer->prepForOutbound();
         
+        $settings_cache = sugar_cache_retrieve('admin_settings_cache');
+        $from_email_address = $settings_cache['mail_smtpuser'];
+        if(!empty($_POST['from_email_address'])){
+            $from_email_address = $_POST['from_email_address'];
+        }
+        $mailer->setMailerForSystemByEmailAccount($from_email_address);
+
         // Removing standard mailer code and adding call with hard coded address for now
         // $mailer->setMailerForSystem();
-        $mailer->setMailerForSystemByEmailAccount('support@processfast.com');
+        //$mailer->setMailerForSystemByEmailAccount('support@processfast.com');
         
         $signatureHTML = '';
         if ($signature && array_key_exists('signature_html', $signature)) {

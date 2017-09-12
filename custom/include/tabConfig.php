@@ -1,6 +1,5 @@
-<?php
-// created: 2017-08-20 00:37:27
-$GLOBALS['tabStructure'] = array (
+<?php 
+$GLOBALS["tabStructure"] =array (
   'LBL_TABGROUP_SALES' => 
   array (
     'label' => 'LBL_TABGROUP_SALES',
@@ -11,8 +10,9 @@ $GLOBALS['tabStructure'] = array (
       2 => 'Contacts',
       3 => 'Opportunities',
       4 => 'Leads',
-      5 => 'AOS_Contracts',
-      6 => 'AOS_Quotes',
+      5 => 'Contracts',
+      6 => 'Quotes',
+      7 => 'Forecasts',
     ),
   ),
   'LBL_TABGROUP_MARKETING' => 
@@ -22,26 +22,23 @@ $GLOBALS['tabStructure'] = array (
     array (
       0 => 'Home',
       1 => 'Accounts',
-      2 => 'Project',
-      3 => 'Contacts',
-      4 => 'Leads',
-      5 => 'Campaigns',
-      6 => 'Prospects',
-      7 => 'ProspectLists',
+      2 => 'Contacts',
+      3 => 'Leads',
+      4 => 'Campaigns',
+      5 => 'Prospects',
+      6 => 'ProspectLists',
     ),
   ),
-  'LBL_GROUPTAB2_1503203644' => 
+  'LBL_TABGROUP_SUPPORT' => 
   array (
-    'label' => 'LBL_GROUPTAB2_1503203644',
+    'label' => 'LBL_TABGROUP_SUPPORT',
     'modules' => 
     array (
-      0 => 'Project',
-      1 => 'AM_ProjectTemplates',
-      2 => 'ResourceCalendar',
-      3 => 'Tasks',
-      4 => 'Meetings',
-      5 => 'Notes',
-      6 => 'Documents',
+      0 => 'Home',
+      1 => 'Accounts',
+      2 => 'Contacts',
+      3 => 'Cases',
+      4 => 'Bugs',
     ),
   ),
   'LBL_TABGROUP_ACTIVITIES' => 
@@ -58,17 +55,15 @@ $GLOBALS['tabStructure'] = array (
       6 => 'Notes',
     ),
   ),
-  'LBL_TABGROUP_SUPPORT' => 
+  'LBL_TABGROUP_COLLABORATION' => 
   array (
-    'label' => 'LBL_TABGROUP_SUPPORT',
+    'label' => 'LBL_TABGROUP_COLLABORATION',
     'modules' => 
     array (
       0 => 'Home',
-      1 => 'Accounts',
-      2 => 'Contacts',
-      3 => 'Cases',
-      4 => 'Bugs',
-      5 => 'AOK_KnowledgeBase',
+      1 => 'Emails',
+      2 => 'Documents',
+      3 => 'Project',
     ),
   ),
 );
