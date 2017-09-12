@@ -99,8 +99,7 @@ function caseUpdates(record){
 
     //Post parameters
 
-    var params = "record="+record+"&module=Cases&return_module=Cases&action=Save&return_id="+record+"&return_action=DetailView&relate_to=Cases&relate_id="+record+"&offset=1&from_email_address="+from_email_address_data+"&update_text="+ update_data + "&internal=" + internal;
-    alert(params);
+    var params = "record="+record+"&module=Cases&return_module=Cases&action=Save&return_id="+record+"&return_action=DetailView&relate_to=Cases&relate_id="+record+"&offset=1&from_email_address="+from_email_address_data+"&update_text="+ update_data + "&internal=" + internal;    
 
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.open("POST", "index.php", true);
