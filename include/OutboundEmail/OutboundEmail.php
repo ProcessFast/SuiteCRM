@@ -450,21 +450,8 @@ class OutboundEmail {
         $a = $this->db->fetchByAssoc($r);
 
         if (empty($a)) {
-            $this->id = "";
-            $this->name = 'system';
-            $this->type = 'system';
-            $this->user_id = '1';
-            $this->mail_sendtype = 'SMTP';
-            $this->mail_smtptype = 'other';
-            $this->mail_smtpserver = '';
-            $this->mail_smtpport = 25;
-            $this->mail_smtpuser = '';
-            $this->mail_smtppass = '';
-            $this->mail_smtpauth_req = 1;
-            $this->mail_smtpssl = 0;
-            $this->mail_smtpdisplay = $this->_getOutboundServerDisplay($this->mail_smtptype, $this->mail_smtpserver);
-            $this->save();
-            $ret = $this;
+            $GLOBALS['log']->fatal('AOPCaseUpdates: Sending Email Failed: No outbound Mail Configured ');
+            return false;
         } else {
             $ret = $this->retrieve($a['id']);
         }
