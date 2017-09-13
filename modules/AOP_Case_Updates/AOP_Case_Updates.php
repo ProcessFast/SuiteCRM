@@ -279,6 +279,7 @@ class AOP_Case_Updates extends Basic
         $mailer->AltBody = $text['body_alt'] . $signaturePlain;
         $mailer->From = $emailSettings['from_address'];
         $mailer->FromName = $emailSettings['from_name'];
+        $mailer->addReplyTo($emailSettings['from_address'], $emailSettings['from_name']);
         foreach ($emails as $email) {
             $mailer->addAddress($email);
         }
