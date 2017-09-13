@@ -129,7 +129,7 @@ class SugarPHPMailer extends PHPMailer
         // ssl or tcp - keeping outside isSMTP b/c a default may inadvertently set ssl://
         $this->protocol = $oe->mail_smtpssl ? 'ssl://' : 'tcp://';
 
-        if ($oe->mail_sendtype === 'SMTP') {
+        if (strtolower($oe->mail_sendtype) === 'smtp') {
             //Set mail send type information
             $this->Mailer = 'smtp';
             $this->Host = $oe->mail_smtpserver;
@@ -163,7 +163,7 @@ class SugarPHPMailer extends PHPMailer
         // ssl or tcp - keeping outside isSMTP b/c a default may inadvertantly set ssl://
         $this->protocol = $oe->mail_smtpssl ? 'ssl://' : 'tcp://';
 
-        if ($oe->mail_sendtype === 'SMTP') {
+        if (strtolower($oe->mail_sendtype) === 'smtp') {
             //Set mail send type information
             $this->Mailer = 'smtp';
             $this->Host = $oe->mail_smtpserver;
@@ -197,7 +197,7 @@ class SugarPHPMailer extends PHPMailer
         // ssl or tcp - keeping outside isSMTP b/c a default may inadvertantly set ssl://
         $this->protocol = $oe->mail_smtpssl ? 'ssl://' : 'tcp://';
 
-        if ($oe->mail_sendtype === 'SMTP') {
+        if (strtolower($oe->mail_sendtype) === 'smtp') {
             //Set mail send type information
             $this->Mailer = 'smtp';
             $this->Host = $oe->mail_smtpserver;

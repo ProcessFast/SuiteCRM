@@ -692,6 +692,14 @@ class OutboundEmail {
         while ($row = $this->db->fetchByAssoc($rs)) {
             $results[] = $row;
         }
+        
+        $query = "SELECT *,email_user as mail_smtpuser,'group' as type FROM inbound_email "
+                . "WHERE deleted='0' and groupfolder_id!='' and group_id!='' and is_personal = 0 and mailbox_type = 'createcase' ";
+        $rs = $this->db->query($query);
+        while ($row = $this->db->fetchByAssoc($rs)) {
+            $results[] = $row;
+        }
+        
         return $results;
     }
 
