@@ -450,21 +450,8 @@ class OutboundEmail {
         $a = $this->db->fetchByAssoc($r);
 
         if (empty($a)) {
-            $this->id = "";
-            $this->name = 'system';
-            $this->type = 'system';
-            $this->user_id = '1';
-            $this->mail_sendtype = 'SMTP';
-            $this->mail_smtptype = 'other';
-            $this->mail_smtpserver = '';
-            $this->mail_smtpport = 25;
-            $this->mail_smtpuser = '';
-            $this->mail_smtppass = '';
-            $this->mail_smtpauth_req = 1;
-            $this->mail_smtpssl = 0;
-            $this->mail_smtpdisplay = $this->_getOutboundServerDisplay($this->mail_smtptype, $this->mail_smtpserver);
-            $this->save();
-            $ret = $this;
+            $GLOBALS['log']->fatal('AOPCaseUpdates: Sending Email Failed: No outbound Mail Configured ');
+            return false;
         } else {
             $ret = $this->retrieve($a['id']);
         }
@@ -692,6 +679,14 @@ class OutboundEmail {
         while ($row = $this->db->fetchByAssoc($rs)) {
             $results[] = $row;
         }
+        
+        $query = "SELECT *,email_user as mail_smtpuser,'group' as type FROM inbound_email "
+                . "WHERE deleted='0' and groupfolder_id!='' and group_id!='' and is_personal = 0 and mailbox_type = 'createcase' ";
+        $rs = $this->db->query($query);
+        while ($row = $this->db->fetchByAssoc($rs)) {
+            $results[] = $row;
+        }
+        
         return $results;
     }
 
