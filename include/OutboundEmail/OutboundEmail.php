@@ -677,16 +677,25 @@ class OutboundEmail {
         $rs = $this->db->query($query);
         $results = array();
         while ($row = $this->db->fetchByAssoc($rs)) {
-            $results[] = $row;
+            $results[$row['mail_smtpuser']] = $row;
         }
         
         $query = "SELECT *,email_user as mail_smtpuser,'group' as type FROM inbound_email "
                 . "WHERE deleted='0' and groupfolder_id!='' and group_id!='' and is_personal = 0 and mailbox_type = 'createcase' ";
         $rs = $this->db->query($query);
         while ($row = $this->db->fetchByAssoc($rs)) {
-            $results[] = $row;
+            $results[$row['mail_smtpuser']] = $row;
         }
         
+        $emailSettings = getPortalEmailSettings();    
+        $array_keys = array_keys($results);
+        $key = array_search($emailSettings['from_address'], $array_keys);
+        if($key){       
+            $key_val = $array_keys[$key];
+            $key_val_arr = $results[$key_val];
+            unset($results[$key_val]);            
+            array_unshift($results, $key_val_arr);
+        }
         return $results;
     }
 
