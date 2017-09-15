@@ -698,5 +698,37 @@ class OutboundEmail {
         }
         return $results;
     }
-
+    function getOutboundAccountsEditview($user=NULL) {
+        $query = "SELECT type,mail_smtpuser FROM outbound_email WHERE deleted='0' ";
+        if(!empty($user)){
+            $query .= " AND (user_id = '{$user->id}' OR type='system') ";
+        }
+        $rs = $this->db->query($query);
+        $results = array();
+        while ($row = $this->db->fetchByAssoc($rs)) {
+            $results[$row['mail_smtpuser']] = $row;
+        }
+        
+        $query = "SELECT *,email_user as mail_smtpuser,'group' as type FROM inbound_email "
+                . "WHERE deleted='0' and groupfolder_id!='' and group_id!='' and is_personal = 0 and mailbox_type = 'createcase' ";
+        $rs = $this->db->query($query);
+        while ($row = $this->db->fetchByAssoc($rs)) {
+            $results[$row['mail_smtpuser']] = $row;
+        }
+        require_once 'modules/AOP_Case_Updates/util.php';
+        $emailSettings = getPortalEmailSettings();    
+        $array_keys = array_keys($results);
+        $key = array_search($emailSettings['from_address'], $array_keys);
+        if($key){       
+            $key_val = $array_keys[$key];
+            $key_val_arr = $results[$key_val];
+            unset($results[$key_val]);            
+            array_unshift($results, $key_val_arr);
+        }
+        $data = array();
+        foreach ($results as $res){
+            $data[$res['mail_smtpuser']]= strtoupper($res['type'])." - ".$res['mail_smtpuser'];
+        }
+        return $data;
+    }
 }

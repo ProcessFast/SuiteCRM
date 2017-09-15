@@ -191,7 +191,17 @@ EOD;
 
     return $html;
 }
-
+/**
+ * Function is used to populate from address dropdown in editview
+ * @return type
+ */
+function getOutboundAccounts() {
+    $user = $GLOBALS['current_user'];    
+    require_once 'include/OutboundEmail/OutboundEmail.php';
+    $outboundEmailObject = new OutboundEmail();
+    $outboundEmailList = $outboundEmailObject->getOutboundAccountsEditview($user);
+    return $outboundEmailList;    
+}
 /**
  * @return mixed|string|void
  */
