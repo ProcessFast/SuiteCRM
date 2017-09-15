@@ -48,6 +48,7 @@ array (
           'panelDefault' => 'expanded',
         ),
       ),
+      'syncDetailEditViews' => true,
     ),
     'panels' => 
     array (
@@ -78,9 +79,19 @@ array (
             'type' => 'link',
             'label' => 'LBL_WEBSITE',
           ),
-          1 => 'account_type',
+          1 => '',
         ),
         2 => 
+        array (
+          0 => 'account_type',
+          1 => 
+          array (
+            'name' => 'supplier_type_c',
+            'studio' => 'visible',
+            'label' => 'LBL_SUPPLIER_TYPE',
+          ),
+        ),
+        3 => 
         array (
           0 => 
           array (
@@ -94,7 +105,7 @@ array (
             'label' => 'LBL_TAX_ID',
           ),
         ),
-        3 => 
+        4 => 
         array (
           0 => 
           array (
@@ -124,7 +135,7 @@ array (
             ),
           ),
         ),
-        4 => 
+        5 => 
         array (
           0 => 
           array (
@@ -132,7 +143,7 @@ array (
             'label' => 'LBL_DESCRIPTION',
           ),
         ),
-        5 => 
+        6 => 
         array (
           0 => 
           array (

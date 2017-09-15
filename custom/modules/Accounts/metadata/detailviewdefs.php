@@ -40,25 +40,21 @@ array (
           'file' => 'modules/Accounts/Account.js',
         ),
       ),
-      'useTabs' => true,
+      'useTabs' => false,
       'tabDefs' => 
       array (
         'LBL_ACCOUNT_INFORMATION' => 
         array (
-          'newTab' => true,
+          'newTab' => false,
           'panelDefault' => 'expanded',
         ),
         'LBL_PANEL_ADVANCED' => 
         array (
-          'newTab' => true,
-          'panelDefault' => 'expanded',
-        ),
-        'LBL_PANEL_ASSIGNMENT' => 
-        array (
-          'newTab' => true,
+          'newTab' => false,
           'panelDefault' => 'expanded',
         ),
       ),
+      'syncDetailEditViews' => true,
     ),
     'panels' => 
     array (
@@ -91,11 +87,7 @@ array (
               'link_target' => '_blank',
             ),
           ),
-          1 => 
-          array (
-            'name' => 'tax_id_c',
-            'label' => 'LBL_TAX_ID',
-          ),
+          1 => '',
         ),
         2 => 
         array (
@@ -107,9 +99,9 @@ array (
           ),
           1 => 
           array (
-            'name' => 'industry',
-            'comment' => 'The company belongs in this industry',
-            'label' => 'LBL_INDUSTRY',
+            'name' => 'supplier_type_c',
+            'studio' => 'visible',
+            'label' => 'LBL_SUPPLIER_TYPE',
           ),
         ),
         3 => 
@@ -120,7 +112,11 @@ array (
             'studio' => 'false',
             'label' => 'LBL_EMAIL',
           ),
-          1 => '',
+          1 => 
+          array (
+            'name' => 'tax_id_c',
+            'label' => 'LBL_TAX_ID',
+          ),
         ),
         4 => 
         array (
@@ -161,12 +157,27 @@ array (
             'name' => 'assigned_user_name',
             'label' => 'LBL_ASSIGNED_TO',
           ),
-          1 => '',
+          1 => 
+          array (
+            'name' => 'industry',
+            'comment' => 'The company belongs in this industry',
+            'label' => 'LBL_INDUSTRY',
+          ),
         ),
       ),
       'LBL_PANEL_ADVANCED' => 
       array (
         0 => 
+        array (
+          0 => 
+          array (
+            'name' => 'phone_fax',
+            'comment' => 'The fax phone number of this company',
+            'label' => 'LBL_FAX',
+          ),
+          1 => '',
+        ),
+        1 => 
         array (
           0 => 
           array (
@@ -181,7 +192,7 @@ array (
             'label' => 'LBL_EMPLOYEES',
           ),
         ),
-        1 => 
+        2 => 
         array (
           0 => 
           array (
@@ -189,26 +200,9 @@ array (
             'label' => 'LBL_MEMBER_OF',
           ),
         ),
-        2 => 
+        3 => 
         array (
           0 => 'campaign_name',
-        ),
-      ),
-      'LBL_PANEL_ASSIGNMENT' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            'name' => 'date_entered',
-            'customCode' => '{$fields.date_entered.value} {$APP.LBL_BY} {$fields.created_by_name.value}',
-          ),
-          1 => 
-          array (
-            'name' => 'date_modified',
-            'label' => 'LBL_DATE_MODIFIED',
-            'customCode' => '{$fields.date_modified.value} {$APP.LBL_BY} {$fields.modified_by_name.value}',
-          ),
         ),
       ),
     ),
