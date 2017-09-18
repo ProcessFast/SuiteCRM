@@ -542,8 +542,8 @@ class CaseUpdatesHook
         if(!empty($emailSettings)){
             require_once 'include/OutboundEmail/OutboundEmail.php';
             $outboundEmailObject = new OutboundEmail();
-            $$outboundEmailData = $outboundEmailObject->getOutgoingMailerSettingsForSpecificAccount($emailSettings['from_address']);
-            if(!empty($$outboundEmailData)){
+            $outboundEmailData = $outboundEmailObject->getOutgoingMailerSettingsForSpecificAccount($emailSettings['from_address']);
+            if(!empty($outboundEmailData)){
                 $mailer->setMailerForSystemByEmailAccount($emailSettings['from_address']);
             }
         }
