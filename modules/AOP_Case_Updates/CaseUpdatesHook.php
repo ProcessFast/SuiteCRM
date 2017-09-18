@@ -539,6 +539,15 @@ class CaseUpdatesHook
         }
 
         $emailSettings = getPortalEmailSettings();
+        if(!empty($emailSettings)){
+            require_once 'include/OutboundEmail/OutboundEmail.php';
+            $outboundEmailObject = new OutboundEmail();
+            $$outboundEmailData = $outboundEmailObject->getOutgoingMailerSettingsForSpecificAccount($emailSettings['from_address']);
+            if(!empty($$outboundEmailData)){
+                $mailer->setMailerForSystemByEmailAccount($emailSettings['from_address']);
+            }
+        }
+        
         $text = $this->populateTemplate($emailTemplate, $bean, $contact);
         $mailer->Subject = $text['subject'];
         $mailer->Body = $text['body'];
@@ -546,6 +555,7 @@ class CaseUpdatesHook
         $mailer->AltBody = $text['body_alt'];
         $mailer->From = $emailSettings['from_address'];
         $mailer->FromName = $emailSettings['from_name'];
+        $mailer->addReplyTo($emailSettings['from_address'], $emailSettings['from_name']);
         $email = $contact->emailAddress->getPrimaryAddress($contact);
         if (empty($email) && !empty($contact->email1)) {
             $email = $contact->email1;
