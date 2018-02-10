@@ -43,12 +43,12 @@ array (
           'newTab' => false,
           'panelDefault' => 'expanded',
         ),
-        'LBL_PANEL_ADVANCED' => 
+        'LBL_EDITVIEW_PANEL1' => 
         array (
           'newTab' => false,
           'panelDefault' => 'expanded',
         ),
-        'LBL_PANEL_ASSIGNMENT' => 
+        'LBL_PANEL_ADVANCED' => 
         array (
           'newTab' => false,
           'panelDefault' => 'expanded',
@@ -67,23 +67,19 @@ array (
             'name' => 'first_name',
             'customCode' => '{html_options name="salutation" id="salutation" options=$fields.salutation.options selected=$fields.salutation.value}&nbsp;<input name="first_name"  id="first_name" size="25" maxlength="25" type="text" value="{$fields.first_name.value}">',
           ),
+          1 => 'last_name',
         ),
         1 => 
         array (
-          0 => 'last_name',
-          1 => 'phone_work',
+          0 => 'phone_work',
+          1 => 'phone_mobile',
         ),
         2 => 
         array (
           0 => 'title',
-          1 => 'phone_mobile',
+          1 => 'department',
         ),
         3 => 
-        array (
-          0 => 'department',
-          1 => 'phone_fax',
-        ),
-        4 => 
         array (
           0 => 
           array (
@@ -92,9 +88,34 @@ array (
             'validateDependency' => false,
             'customCode' => '<input name="account_name" id="EditView_account_name" {if ($fields.converted.value == 1)}disabled="true"{/if} size="30" maxlength="255" type="text" value="{$fields.account_name.value}">',
           ),
-          1 => 'website',
+          1 => 'email1',
+        ),
+        4 => 
+        array (
+          0 => '',
+          1 => '',
         ),
         5 => 
+        array (
+          0 => 
+          array (
+            'name' => 'lead_notes_c',
+            'studio' => 'visible',
+            'label' => 'LBL_LEAD_NOTES',
+          ),
+          1 => 
+          array (
+            'name' => 'hot_buttons_c',
+            'studio' => 'visible',
+            'label' => 'LBL_HOT_BUTTONS',
+          ),
+        ),
+        6 => 
+        array (
+          0 => '',
+          1 => '',
+        ),
+        7 => 
         array (
           0 => 
           array (
@@ -124,13 +145,70 @@ array (
             ),
           ),
         ),
-        6 => 
-        array (
-          0 => 'email1',
-        ),
-        7 => 
+        8 => 
         array (
           0 => 'description',
+        ),
+        9 => 
+        array (
+          0 => 
+          array (
+            'name' => 'assigned_user_name',
+            'label' => 'LBL_ASSIGNED_TO',
+          ),
+          1 => 
+          array (
+            'name' => 'points_c',
+            'label' => 'LBL_POINTS',
+          ),
+        ),
+      ),
+      'lbl_editview_panel1' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            'name' => 'facebook_c',
+            'label' => 'LBL_FACEBOOK',
+          ),
+          1 => '',
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            'name' => 'linkedin_c',
+            'label' => 'LBL_LINKEDIN',
+          ),
+          1 => '',
+        ),
+        2 => 
+        array (
+          0 => 
+          array (
+            'name' => 'google_plus_c',
+            'label' => 'LBL_GOOGLE_PLUS',
+          ),
+          1 => '',
+        ),
+        3 => 
+        array (
+          0 => 
+          array (
+            'name' => 'instagram_c',
+            'label' => 'LBL_INSTAGRAM',
+          ),
+          1 => '',
+        ),
+        4 => 
+        array (
+          0 => 
+          array (
+            'name' => 'twitter_c',
+            'label' => 'LBL_TWITTER',
+          ),
+          1 => '',
         ),
       ),
       'LBL_PANEL_ADVANCED' => 
@@ -181,17 +259,6 @@ array (
         5 => 
         array (
           0 => 'campaign_name',
-        ),
-      ),
-      'LBL_PANEL_ASSIGNMENT' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            'name' => 'assigned_user_name',
-            'label' => 'LBL_ASSIGNED_TO',
-          ),
         ),
       ),
     ),

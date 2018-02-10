@@ -85,12 +85,12 @@ array (
           'newTab' => false,
           'panelDefault' => 'expanded',
         ),
-        'LBL_PANEL_ADVANCED' => 
+        'LBL_EDITVIEW_PANEL1' => 
         array (
           'newTab' => false,
           'panelDefault' => 'expanded',
         ),
-        'LBL_PANEL_ASSIGNMENT' => 
+        'LBL_PANEL_ADVANCED' => 
         array (
           'newTab' => false,
           'panelDefault' => 'expanded',
@@ -110,36 +110,57 @@ array (
             'comment' => 'First name of the contact',
             'label' => 'LBL_FIRST_NAME',
           ),
-        ),
-        1 => 
-        array (
-          0 => 
+          1 => 
           array (
             'name' => 'last_name',
             'comment' => 'Last name of the contact',
             'label' => 'LBL_LAST_NAME',
           ),
-          1 => 'phone_work',
+        ),
+        1 => 
+        array (
+          0 => 'phone_work',
+          1 => 'phone_mobile',
         ),
         2 => 
         array (
           0 => 'title',
-          1 => 'phone_mobile',
+          1 => 'department',
         ),
         3 => 
-        array (
-          0 => 'department',
-          1 => 'phone_fax',
-        ),
-        4 => 
         array (
           0 => 
           array (
             'name' => 'account_name',
           ),
-          1 => 'website',
+          1 => 'email1',
+        ),
+        4 => 
+        array (
+          0 => '',
+          1 => '',
         ),
         5 => 
+        array (
+          0 => 
+          array (
+            'name' => 'lead_notes_c',
+            'studio' => 'visible',
+            'label' => 'LBL_LEAD_NOTES',
+          ),
+          1 => 
+          array (
+            'name' => 'hot_buttons_c',
+            'studio' => 'visible',
+            'label' => 'LBL_HOT_BUTTONS',
+          ),
+        ),
+        6 => 
+        array (
+          0 => '',
+          1 => '',
+        ),
+        7 => 
         array (
           0 => 
           array (
@@ -162,13 +183,70 @@ array (
             ),
           ),
         ),
-        6 => 
-        array (
-          0 => 'email1',
-        ),
-        7 => 
+        8 => 
         array (
           0 => 'description',
+        ),
+        9 => 
+        array (
+          0 => 
+          array (
+            'name' => 'assigned_user_name',
+            'label' => 'LBL_ASSIGNED_TO',
+          ),
+          1 => 
+          array (
+            'name' => 'points_c',
+            'label' => 'LBL_POINTS',
+          ),
+        ),
+      ),
+      'lbl_editview_panel1' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            'name' => 'facebook_c',
+            'label' => 'LBL_FACEBOOK',
+          ),
+          1 => '',
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            'name' => 'linkedin_c',
+            'label' => 'LBL_LINKEDIN',
+          ),
+          1 => '',
+        ),
+        2 => 
+        array (
+          0 => 
+          array (
+            'name' => 'google_plus_c',
+            'label' => 'LBL_GOOGLE_PLUS',
+          ),
+          1 => '',
+        ),
+        3 => 
+        array (
+          0 => 
+          array (
+            'name' => 'instagram_c',
+            'label' => 'LBL_INSTAGRAM',
+          ),
+          1 => '',
+        ),
+        4 => 
+        array (
+          0 => 
+          array (
+            'name' => 'twitter_c',
+            'label' => 'LBL_TWITTER',
+          ),
+          1 => '',
         ),
       ),
       'LBL_PANEL_ADVANCED' => 
@@ -216,17 +294,6 @@ array (
           array (
             'name' => 'campaign_name',
             'label' => 'LBL_CAMPAIGN',
-          ),
-        ),
-      ),
-      'LBL_PANEL_ASSIGNMENT' => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            'name' => 'assigned_user_name',
-            'label' => 'LBL_ASSIGNED_TO',
           ),
         ),
       ),

@@ -87,7 +87,12 @@ array (
               'link_target' => '_blank',
             ),
           ),
-          1 => '',
+          1 => 
+          array (
+            'name' => 'email1',
+            'studio' => 'false',
+            'label' => 'LBL_EMAIL',
+          ),
         ),
         2 => 
         array (
@@ -106,19 +111,59 @@ array (
         ),
         3 => 
         array (
+          0 => '',
+          1 => '',
+        ),
+        4 => 
+        array (
           0 => 
           array (
-            'name' => 'email1',
-            'studio' => 'false',
-            'label' => 'LBL_EMAIL',
+            'name' => 'title_production_sys_c',
+            'studio' => 'visible',
+            'label' => 'LBL_TITLE_PRODUCTION_SYS',
           ),
           1 => 
           array (
-            'name' => 'tax_id_c',
-            'label' => 'LBL_TAX_ID',
+            'name' => 'current_reporting_solution_c',
+            'studio' => 'visible',
+            'label' => 'LBL_CURRENT_REPORTING_SOLUTION',
           ),
         ),
-        4 => 
+        5 => 
+        array (
+          0 => 
+          array (
+            'name' => 'account_notes_c',
+            'studio' => 'visible',
+            'label' => 'LBL_ACCOUNT_NOTES',
+          ),
+          1 => 
+          array (
+            'name' => 'biggest_problem_to_solve_c',
+            'label' => 'LBL_BIGGEST_PROBLEM_TO_SOLVE',
+          ),
+        ),
+        6 => 
+        array (
+          0 => 
+          array (
+            'name' => 'client_types_c',
+            'studio' => 'visible',
+            'label' => 'LBL_CLIENT_TYPES',
+          ),
+          1 => 
+          array (
+            'name' => 'current_ops_insights_client_c',
+            'studio' => 'visible',
+            'label' => 'LBL_CURRENT_OPS_INSIGHTS_CLIENT',
+          ),
+        ),
+        7 => 
+        array (
+          0 => '',
+          1 => '',
+        ),
+        8 => 
         array (
           0 => 
           array (
@@ -141,16 +186,7 @@ array (
             ),
           ),
         ),
-        5 => 
-        array (
-          0 => 
-          array (
-            'name' => 'description',
-            'comment' => 'Full text of the note',
-            'label' => 'LBL_DESCRIPTION',
-          ),
-        ),
-        6 => 
+        9 => 
         array (
           0 => 
           array (
@@ -171,9 +207,9 @@ array (
         array (
           0 => 
           array (
-            'name' => 'phone_fax',
-            'comment' => 'The fax phone number of this company',
-            'label' => 'LBL_FAX',
+            'name' => 'description',
+            'comment' => 'Full text of the note',
+            'label' => 'LBL_DESCRIPTION',
           ),
           1 => '',
         ),
@@ -181,20 +217,25 @@ array (
         array (
           0 => 
           array (
-            'name' => 'annual_revenue',
-            'comment' => 'Annual revenue for this company',
-            'label' => 'LBL_ANNUAL_REVENUE',
+            'name' => 'tax_id_c',
+            'label' => 'LBL_TAX_ID',
           ),
           1 => 
           array (
-            'name' => 'employees',
-            'comment' => 'Number of employees, varchar to accomodate for both number (100) or range (50-100)',
-            'label' => 'LBL_EMPLOYEES',
+            'name' => 'annual_revenue',
+            'comment' => 'Annual revenue for this company',
+            'label' => 'LBL_ANNUAL_REVENUE',
           ),
         ),
         2 => 
         array (
           0 => 
+          array (
+            'name' => 'employees',
+            'comment' => 'Number of employees, varchar to accomodate for both number (100) or range (50-100)',
+            'label' => 'LBL_EMPLOYEES',
+          ),
+          1 => 
           array (
             'name' => 'parent_name',
             'label' => 'LBL_MEMBER_OF',
