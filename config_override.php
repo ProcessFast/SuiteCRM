@@ -33,6 +33,6 @@ $sugar_config['SAML_loginurl'] = '';
 $sugar_config['SAML_logouturl'] = '';
 $sugar_config['SAML_X509Cert'] = '';
 $sugar_config['authenticationClass'] = '';
-$sugar_config['default_theme'] = 'SuitePImproved';
+$sugar_config['default_theme'] = 'SuiteP';
 $sugar_config['disabled_themes'] = 'SuiteP';
 /***CONFIGURATOR***/
