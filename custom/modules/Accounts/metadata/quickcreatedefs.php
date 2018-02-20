@@ -104,44 +104,5 @@ array (
     ),
   ),
 );
-$viewdefs['Accounts']['QuickCreate']['templateMeta'] = array (
-  'form' => 
-  array (
-    'buttons' => 
-    array (
-      0 => 'SAVE',
-      1 => 'CANCEL',
-    ),
-  ),
-  'maxColumns' => '2',
-  'widths' => 
-  array (
-    0 => 
-    array (
-      'label' => '10',
-      'field' => '30',
-    ),
-    1 => 
-    array (
-      'label' => '10',
-      'field' => '30',
-    ),
-  ),
-  'includes' => 
-  array (
-    0 => 
-    array (
-      'file' => 'modules/Accounts/Account.js',
-    ),
-  ),
-  'useTabs' => false,
-  'tabDefs' => 
-  array (
-    'DEFAULT' => 
-    array (
-      'newTab' => false,
-      'panelDefault' => 'expanded',
-    ),
-  ),
-);
+;
 ?>

@@ -40,21 +40,25 @@ array (
           'file' => 'modules/Accounts/Account.js',
         ),
       ),
-      'useTabs' => false,
+      'useTabs' => true,
       'tabDefs' => 
       array (
         'LBL_ACCOUNT_INFORMATION' => 
         array (
-          'newTab' => false,
+          'newTab' => true,
           'panelDefault' => 'expanded',
         ),
         'LBL_PANEL_ADVANCED' => 
         array (
-          'newTab' => false,
+          'newTab' => true,
+          'panelDefault' => 'expanded',
+        ),
+        'LBL_PANEL_ASSIGNMENT' => 
+        array (
+          'newTab' => true,
           'panelDefault' => 'expanded',
         ),
       ),
-      'syncDetailEditViews' => true,
     ),
     'panels' => 
     array (
@@ -111,8 +115,6 @@ array (
         ),
         3 => 
         array (
-          0 => '',
-          1 => '',
         ),
         4 => 
         array (
@@ -160,8 +162,6 @@ array (
         ),
         7 => 
         array (
-          0 => '',
-          1 => '',
         ),
         8 => 
         array (
@@ -211,7 +211,6 @@ array (
             'comment' => 'Full text of the note',
             'label' => 'LBL_DESCRIPTION',
           ),
-          1 => '',
         ),
         1 => 
         array (
@@ -249,60 +248,5 @@ array (
     ),
   ),
 );
-$viewdefs['Accounts']['DetailView']['templateMeta'] = array (
-  'form' => 
-  array (
-    'buttons' => 
-    array (
-      0 => 'EDIT',
-      1 => 'DUPLICATE',
-      2 => 'DELETE',
-      3 => 'FIND_DUPLICATES',
-      'AOS_GENLET' => 
-      array (
-        'customCode' => '<input type="button" class="button" onClick="showPopup();" value="{$APP.LBL_PRINT_AS_PDF}">',
-      ),
-    ),
-  ),
-  'maxColumns' => '2',
-  'widths' => 
-  array (
-    0 => 
-    array (
-      'label' => '10',
-      'field' => '30',
-    ),
-    1 => 
-    array (
-      'label' => '10',
-      'field' => '30',
-    ),
-  ),
-  'includes' => 
-  array (
-    0 => 
-    array (
-      'file' => 'modules/Accounts/Account.js',
-    ),
-  ),
-  'useTabs' => true,
-  'tabDefs' => 
-  array (
-    'LBL_ACCOUNT_INFORMATION' => 
-    array (
-      'newTab' => true,
-      'panelDefault' => 'expanded',
-    ),
-    'LBL_PANEL_ADVANCED' => 
-    array (
-      'newTab' => true,
-      'panelDefault' => 'expanded',
-    ),
-    'LBL_PANEL_ASSIGNMENT' => 
-    array (
-      'newTab' => true,
-      'panelDefault' => 'expanded',
-    ),
-  ),
-);
+;
 ?>

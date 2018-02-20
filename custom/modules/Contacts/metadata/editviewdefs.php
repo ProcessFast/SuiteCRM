@@ -38,18 +38,12 @@ array (
           'newTab' => false,
           'panelDefault' => 'expanded',
         ),
-        'LBL_EDITVIEW_PANEL1' => 
-        array (
-          'newTab' => false,
-          'panelDefault' => 'expanded',
-        ),
         'LBL_PANEL_ADVANCED' => 
         array (
           'newTab' => false,
           'panelDefault' => 'expanded',
         ),
       ),
-      'syncDetailEditViews' => true,
     ),
     'panels' => 
     array (
@@ -117,8 +111,6 @@ array (
         ),
         4 => 
         array (
-          0 => '',
-          1 => '',
         ),
         5 => 
         array (
@@ -152,8 +144,6 @@ array (
         ),
         7 => 
         array (
-          0 => '',
-          1 => '',
         ),
         8 => 
         array (
@@ -216,7 +206,6 @@ array (
             'name' => 'facebook_c',
             'label' => 'LBL_FACEBOOK',
           ),
-          1 => '',
         ),
         1 => 
         array (
@@ -225,7 +214,6 @@ array (
             'name' => 'linkedin_c',
             'label' => 'LBL_LINKEDIN',
           ),
-          1 => '',
         ),
         2 => 
         array (
@@ -234,7 +222,6 @@ array (
             'name' => 'google_plus_c',
             'label' => 'LBL_GOOGLE_PLUS',
           ),
-          1 => '',
         ),
         3 => 
         array (
@@ -243,7 +230,6 @@ array (
             'name' => 'instagram_c',
             'label' => 'LBL_INSTAGRAM',
           ),
-          1 => '',
         ),
         4 => 
         array (
@@ -252,7 +238,6 @@ array (
             'name' => 'twitter_c',
             'label' => 'LBL_TWITTER',
           ),
-          1 => '',
         ),
       ),
       'LBL_PANEL_ADVANCED' => 
@@ -279,45 +264,5 @@ array (
     ),
   ),
 );
-$viewdefs['Contacts']['EditView']['templateMeta'] = array (
-  'form' => 
-  array (
-    'hidden' => 
-    array (
-      0 => '<input type="hidden" name="opportunity_id" value="{$smarty.request.opportunity_id}">',
-      1 => '<input type="hidden" name="case_id" value="{$smarty.request.case_id}">',
-      2 => '<input type="hidden" name="bug_id" value="{$smarty.request.bug_id}">',
-      3 => '<input type="hidden" name="email_id" value="{$smarty.request.email_id}">',
-      4 => '<input type="hidden" name="inbound_email_id" value="{$smarty.request.inbound_email_id}">',
-    ),
-  ),
-  'maxColumns' => '2',
-  'widths' => 
-  array (
-    0 => 
-    array (
-      'label' => '10',
-      'field' => '30',
-    ),
-    1 => 
-    array (
-      'label' => '10',
-      'field' => '30',
-    ),
-  ),
-  'useTabs' => false,
-  'tabDefs' => 
-  array (
-    'LBL_CONTACT_INFORMATION' => 
-    array (
-      'newTab' => false,
-      'panelDefault' => 'expanded',
-    ),
-    'LBL_PANEL_ADVANCED' => 
-    array (
-      'newTab' => false,
-      'panelDefault' => 'expanded',
-    ),
-  ),
-);
+;
 ?>

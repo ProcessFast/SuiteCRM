@@ -48,7 +48,6 @@ array (
           'panelDefault' => 'expanded',
         ),
       ),
-      'syncDetailEditViews' => true,
     ),
     'panels' => 
     array (
@@ -98,8 +97,6 @@ array (
         ),
         3 => 
         array (
-          0 => '',
-          1 => '',
         ),
         4 => 
         array (
@@ -147,8 +144,6 @@ array (
         ),
         7 => 
         array (
-          0 => '',
-          1 => '',
         ),
         8 => 
         array (
@@ -199,7 +194,6 @@ array (
             'name' => 'description',
             'label' => 'LBL_DESCRIPTION',
           ),
-          1 => '',
         ),
         1 => 
         array (
@@ -223,49 +217,5 @@ array (
     ),
   ),
 );
-$viewdefs['Accounts']['EditView']['templateMeta'] = array (
-  'form' => 
-  array (
-    'buttons' => 
-    array (
-      0 => 'SAVE',
-      1 => 'CANCEL',
-    ),
-  ),
-  'maxColumns' => '2',
-  'widths' => 
-  array (
-    0 => 
-    array (
-      'label' => '10',
-      'field' => '30',
-    ),
-    1 => 
-    array (
-      'label' => '10',
-      'field' => '30',
-    ),
-  ),
-  'includes' => 
-  array (
-    0 => 
-    array (
-      'file' => 'modules/Accounts/Account.js',
-    ),
-  ),
-  'useTabs' => false,
-  'tabDefs' => 
-  array (
-    'LBL_ACCOUNT_INFORMATION' => 
-    array (
-      'newTab' => false,
-      'panelDefault' => 'expanded',
-    ),
-    'LBL_PANEL_ADVANCED' => 
-    array (
-      'newTab' => false,
-      'panelDefault' => 'expanded',
-    ),
-  ),
-);
+;
 ?>
