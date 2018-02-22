@@ -17,6 +17,8 @@ class CaseSaveHook
         $bean->description = '';
         if (strlen($text) > $this->slug_size) {
             $bean->description = substr($text, 0, $this->slug_size) . '...';
+        }else{
+            $bean->description = $text;
         }                
     }
 }
