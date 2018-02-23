@@ -37,3 +37,7 @@ $sugar_config['authenticationClass'] = '';
 $sugar_config['default_theme'] = 'SuiteP';
 $sugar_config['disabled_themes'] = 'SuitePImproved';
 /***CONFIGURATOR***/
+=======
+$sugar_config['disabled_themes'] = 'SuiteP';
+/***CONFIGURATOR***/
+>>>>>>> 599fafcd920cd2779adb165ebfdbbfac5061eef5
