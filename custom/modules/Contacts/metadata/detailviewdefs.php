@@ -111,25 +111,26 @@ array (
           'file' => 'modules/Leads/Lead.js',
         ),
       ),
-      'useTabs' => true,
+      'useTabs' => false,
       'tabDefs' => 
       array (
         'LBL_CONTACT_INFORMATION' => 
         array (
-          'newTab' => true,
+          'newTab' => false,
+          'panelDefault' => 'expanded',
+        ),
+        'LBL_EDITVIEW_PANEL1' => 
+        array (
+          'newTab' => false,
           'panelDefault' => 'expanded',
         ),
         'LBL_PANEL_ADVANCED' => 
         array (
-          'newTab' => true,
-          'panelDefault' => 'expanded',
-        ),
-        'LBL_PANEL_ASSIGNMENT' => 
-        array (
-          'newTab' => true,
+          'newTab' => false,
           'panelDefault' => 'expanded',
         ),
       ),
+      'syncDetailEditViews' => true,
     ),
     'panels' => 
     array (
@@ -193,9 +194,6 @@ array (
         ),
         4 => 
         array (
-        ),
-        5 => 
-        array (
           0 => 
           array (
             'name' => 'contact_notes_c',
@@ -209,7 +207,7 @@ array (
             'label' => 'LBL_HOT_BUTTONS',
           ),
         ),
-        6 => 
+        5 => 
         array (
           0 => 
           array (
@@ -224,10 +222,7 @@ array (
             'label' => 'LBL_CONFERENCES_ATTENDED',
           ),
         ),
-        7 => 
-        array (
-        ),
-        8 => 
+        6 => 
         array (
           0 => 
           array (
@@ -250,7 +245,7 @@ array (
             ),
           ),
         ),
-        9 => 
+        7 => 
         array (
           0 => 
           array (
@@ -259,7 +254,7 @@ array (
             'label' => 'LBL_DESCRIPTION',
           ),
         ),
-        10 => 
+        8 => 
         array (
           0 => 
           array (
@@ -314,6 +309,24 @@ array (
             'name' => 'twitter_c',
             'label' => 'LBL_TWITTER',
           ),
+        ),
+        5 => 
+        array (
+          0 => 
+          array (
+            'name' => 'skype_profile_c',
+            'label' => 'LBL_SKYPE_PROFILE',
+          ),
+          1 => '',
+        ),
+        6 => 
+        array (
+          0 => 
+          array (
+            'name' => 'upwork_profile_url_c',
+            'label' => 'LBL_UPWORK_PROFILE_URL',
+          ),
+          1 => '',
         ),
       ),
       'LBL_PANEL_ADVANCED' => 

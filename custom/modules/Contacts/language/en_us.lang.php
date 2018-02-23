@@ -1,5 +1,5 @@
 <?php
-// created: 2018-01-23 11:42:53
+// created: 2018-02-22 18:43:59
 $mod_strings = array (
   'LBL_OPS_INSIGHTS_USER_STATUS' => 'Ops Insights User Status',
   'LBL_CONTACT_NOTES' => 'Contact Notes',
@@ -12,4 +12,6 @@ $mod_strings = array (
   'LBL_LINKEDIN' => 'LinkedIn',
   'LBL_TWITTER' => 'Twitter',
   'LBL_POINTS' => 'Points',
+  'LBL_SKYPE_PROFILE' => 'Skype Profile',
+  'LBL_UPWORK_PROFILE_URL' => 'Upwork Profile',
 );
