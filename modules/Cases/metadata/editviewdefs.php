@@ -187,4 +187,3 @@ $viewdefs ['Cases'] = array(
                 ),
             ),
 );
-?>
