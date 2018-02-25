@@ -1,7 +1,5 @@
 ## SuiteCRM 7.10
 
-BRAD TESTING DEPLOYMENT - PROD
-
 [![Build Status](https://travis-ci.org/salesagility/SuiteCRM.svg?branch=develop)](https://travis-ci.org/salesagility/SuiteCRM)
 
 
