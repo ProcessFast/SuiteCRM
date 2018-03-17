@@ -3,7 +3,7 @@
  * SugarCRM Community Edition is a customer relationship management program developed by
  * SugarCRM, Inc. Copyright (C) 2004-2013 SugarCRM Inc.
  * SuiteCRM is an extension to SugarCRM Community Edition developed by Salesagility Ltd.
- * Copyright (C) 2011 - 2014 Salesagility Ltd.
+ * Copyright (C) 2011 - 2018 Salesagility Ltd.
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Affero General Public License version 3 as published by the
@@ -36,38 +36,45 @@
  * display the words  "Powered by SugarCRM" and "Supercharged by SuiteCRM".
  ********************************************************************************/
 
-$mod_strings = array(
-    'LBL_ASSIGNED_TO_ID'                => '担当ユーザID',
-    'LBL_ASSIGNED_TO_NAME'              => '担当ユーザ',
-    'LBL_SECURITYGROUPS'                => 'セキュリティグループ',
-    'LBL_SECURITYGROUPS_SUBPANEL_TITLE' => 'セキュリティグループ',
-    'LBL_ID'                            => 'ID',
-    'LBL_DATE_ENTERED'                  => '作成日',
-    'LBL_DATE_MODIFIED'                 => '更新日',
-    'LBL_MODIFIED'                      => '更新者',
-    'LBL_MODIFIED_ID'                   => '更新ID',
-    'LBL_MODIFIED_NAME'                 => '更新者',
-    'LBL_CREATED'                       => '作成者',
-    'LBL_CREATED_ID'                    => '生成ID',
-    'LBL_DESCRIPTION'                   => '詳細',
-    'LBL_DELETED'                       => '削除済み',
-    'LBL_NAME'                          => '名前',
-    'LBL_CREATED_USER'                  => '生成ユーザ',
-    'LBL_MODIFIED_USER'                 => '更新ユーザ',
-    'LBL_LIST_NAME'                     => '名前',
-    'LBL_EDIT_BUTTON'                   => '編集',
-    'LBL_REMOVE'                        => '削除',
-    'LBL_LIST_FORM_TITLE'               => 'Surveys 一覧',
-    'LBL_MODULE_NAME'                   => 'Surveys',
-    'LBL_MODULE_TITLE'                  => 'Surveys',
-    'LBL_HOMEPAGE_TITLE'                => '私の Surveys',
-    'LNK_NEW_RECORD'                    => 'の作成 Surveys',
-    'LNK_LIST'                          => '画面 Surveys',
-    'LNK_IMPORT_SURVEYS'                => 'Import Surveys',
-    'LBL_SEARCH_FORM_TITLE'             => '検索 Surveys',
-    'LBL_HISTORY_SUBPANEL_TITLE'        => '履歴',
-    'LBL_ACTIVITIES_SUBPANEL_TITLE'     => '活動',
-    'LBL_SURVEYS_SUBPANEL_TITLE'        => 'Surveys',
-    'LBL_NEW_FORM_TITLE'                => '新規 Surveys',
-    'LBL_STATUS'                        => 'Status',
-);
+if (!defined('sugarEntry') || !sugarEntry) {
+    die('Not A Valid Entry Point');
+}
+
+$module_name = 'OAuth2Clients';
+
+$viewdefs[$module_name]['EditView'] = [
+    'templateMeta' => [
+        'maxColumns' => '1',
+        'widths' => [
+            ['label' => '30', 'field' => '70'],
+        ],
+    ],
+    'panels' => [
+        'default' =>
+            [
+                0 =>
+                    [
+                        'name' => 'name',
+                    ],
+                1 =>
+                    [
+                        0 =>
+                            [
+                                'name' => 'new_secret',
+                                'label' => 'LBL_SECRET_HASHED',
+                                'customCode' => '<input type="password" name="new_secret" id="new_secret" placeholder="{$MOD.LBL_LEAVE_BLANK}" size="30">'
+                                    . '<input type="hidden" name="allowed_grant_type" id="allowed_grant_type" value="client_credentials">'
+                                    . '<br /><span>{$MOD.LBL_REMEMBER_SECRET}</span>',
+                            ],
+                    ],
+                2 =>
+                    [
+                        'name' => 'is_confidential',
+                    ],
+                4 =>
+                    [
+                        'name' => 'assigned_user_name',
+                    ],
+            ],
+    ],
+];
