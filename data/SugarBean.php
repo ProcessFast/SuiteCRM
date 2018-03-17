@@ -242,7 +242,7 @@ class SugarBean
     public $current_notify_user;
 
     /**
-     * @var bool $fetched_row
+     * @var bool|array $fetched_row
      */
     public $fetched_row = false;
     /**
@@ -2014,7 +2014,7 @@ class SugarBean
                 return true;
             }
         }
-        $GLOBALS['log']->debug("SugarBean.load_relationships, Error Loading relationship (" . $rel_name . ")");
+        $GLOBALS['log']->debug("SugarBean.load_relationships, failed Loading relationship (" . $rel_name . ")");
         return false;
     }
 

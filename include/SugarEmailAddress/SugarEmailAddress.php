@@ -1265,7 +1265,8 @@ class SugarEmailAddress extends SugarBean
 
         // determine how we are going to put in this address - UPDATE or INSERT
         if (!empty($duplicate_email['id'])) {
-
+            $duplicate = clone $this;
+            $duplicate->retrieve($duplicate_email['id']);
             // address_caps matches - see if we're changing fields
             if (
                 $duplicate_email['invalid_email'] != $new_invalid
@@ -1280,6 +1281,10 @@ class SugarEmailAddress extends SugarBean
                     (!is_null($optInFlag) ? ('confirm_opt_in=\'' . $this->db->quote($new_confirmed_opt_in) . '\', ') : '') .
                     'date_modified=' . $this->db->now() . ' ' .
                     'WHERE id=\'' . $this->db->quote($duplicate_email['id']) . '\'';
+                // set for audit table detection
+                $duplicate->invalid_email = $new_invalid;
+                $duplicate->opt_out = $new_opt_out;
+                $duplicate->confirm_opt_in = $new_confirmed_opt_in;
                 $upd_r = $this->db->query($upd_q);
 
                 if(!is_null($optInFlag)) {
@@ -1292,22 +1297,35 @@ class SugarEmailAddress extends SugarBean
                             'confirm_opt_in_fail_date=NULL ' .
                             'WHERE id=\'' . $this->db->quote($duplicate_email['id']) . '\'';
                         $upd_r = $this->db->query($upd_q);
+                        // set for audit table detection
+                        $duplicate->confirm_opt_in = null;
                     }
                 }
             }
+
+            if(!empty($this->fetched_row)) {
+                foreach ($this->fetched_row as $fieldName => $fieldValue) {
+                    $this->{$fieldName} = $duplicate->{$fieldName};
+                }
+            }
+
+            $this->auditBean(true);
 
             return $duplicate_email['id'];
         } else {
             // no case-insensitive address match - it's new, or undeleted.
             $guid = '';
+            $isUpdate = true;
             if (!empty($address)) {
                 $guid = create_guid();
                 $now = TimeDate::getInstance()->nowDb();
                 $qa = "INSERT INTO email_addresses (id, email_address, email_address_caps, date_created, date_modified, deleted, invalid_email, opt_out" . (!is_null($optInFlag) ? ", confirm_opt_in" : '') . ")
                         VALUES('{$guid}', '{$address}', '{$addressCaps}', '$now', '$now', 0 , $new_invalid, $new_opt_out" . (!is_null($optInFlag) ? ", '" . $this->db->quote($new_confirmed_opt_in) ."'" : '') . ")";
                 $this->db->query($qa);
+                $isUpdate = false;
             }
 
+            $this->auditBean($isUpdate);
             return $guid;
         }
     }
@@ -2254,27 +2272,28 @@ class SugarEmailAddress extends SugarBean
                     case self::COI_FLAG_OPT_IN:
                         $optInFlagClass = 'email-opt-in-confirmed';
                         $optInFlagTitle = $app_strings['LBL_OPT_IN'];
-                        $optInFlagText = '&#10004;';
+                        $optInFlagText = '<span class="suitepicon suitepicon-action-confirm"></span>';
                         break;
                     case self::COI_FLAG_OPT_IN_PENDING_EMAIL_CONFIRMED:
                         $optInFlagClass = 'email-opt-in-confirmed';
                         $optInFlagTitle = $app_strings['LBL_OPT_IN_CONFIRMED'];
-                        $optInFlagText = '&#10004;&#10004;';
+                        $optInFlagText = '<span class="suitepicon suitepicon-action-confirm">';
+                        $optInFlagText .= '</span><span class="suitepicon suitepicon-action-confirm"></span>';
                         break;
                     case self::COI_FLAG_OPT_IN_PENDING_EMAIL_SENT:
                         $optInFlagClass = 'email-opt-in-sent';
                         $optInFlagTitle = $app_strings['LBL_OPT_IN_PENDING_EMAIL_SENT'];
-                        $optInFlagText = '&#10004;';
+                        $optInFlagText = '<span class="suitepicon suitepicon-action-confirm"></span>';
                         break;
                     case self::COI_FLAG_OPT_IN_PENDING_EMAIL_NOT_SENT:
                         $optInFlagClass = 'email-opt-in-not-sent';
                         $optInFlagTitle = $app_strings['LBL_OPT_IN_PENDING_EMAIL_NOT_SENT'];
-                        $optInFlagText = '&#10004;';
+                        $optInFlagText = '<span class="suitepicon suitepicon-action-confirm"></span>';
                         break;
                     case self::COI_FLAG_OPT_IN_PENDING_EMAIL_FAILED:
                         $optInFlagClass = 'email-opt-in-failed';
                         $optInFlagTitle = $app_strings['LBL_OPT_IN_PENDING_EMAIL_FAILED'];
-                        $optInFlagText = '&#10004;';
+                        $optInFlagText = '<span class="suitepicon suitepicon-action-confirm"></span>';
                         break;
                     case self::COI_FLAG_OPT_OUT:
                         $optInFlagClass = 'email-opt-in-opt-out';
