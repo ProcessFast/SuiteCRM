@@ -30,6 +30,7 @@ $sugar_config['addAjaxBannedModules'][4] = 'AM_ProjectTemplates';
 $sugar_config['addAjaxBannedModules'][5] = 'AM_ProjectTemplates';
 $sugar_config['passwordsetting']['systexpirationtype'] = '1';
 $sugar_config['passwordsetting']['SystemGeneratedPasswordON'] = '0';
+$sugar_config['passwordsetting']['onespecial'] = '0';
 $sugar_config['SAML_loginurl'] = '';
 $sugar_config['SAML_logouturl'] = '';
 $sugar_config['SAML_X509Cert'] = '';
@@ -37,4 +38,3 @@ $sugar_config['authenticationClass'] = '';
 $sugar_config['default_theme'] = 'SuiteP';
 $sugar_config['disabled_themes'] = 'SuitePImproved';
 /***CONFIGURATOR***/
-

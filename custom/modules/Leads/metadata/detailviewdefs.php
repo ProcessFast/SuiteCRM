@@ -85,17 +85,18 @@ array (
           'newTab' => true,
           'panelDefault' => 'expanded',
         ),
-        'LBL_PANEL_ADVANCED' => 
+        'LBL_EDITVIEW_PANEL1' => 
         array (
-          'newTab' => true,
+          'newTab' => false,
           'panelDefault' => 'expanded',
         ),
-        'LBL_PANEL_ASSIGNMENT' => 
+        'LBL_PANEL_ADVANCED' => 
         array (
-          'newTab' => true,
+          'newTab' => false,
           'panelDefault' => 'expanded',
         ),
       ),
+      'syncDetailEditViews' => true,
     ),
     'panels' => 
     array (
@@ -136,9 +137,6 @@ array (
         ),
         4 => 
         array (
-        ),
-        5 => 
-        array (
           0 => 
           array (
             'name' => 'lead_notes_c',
@@ -152,10 +150,7 @@ array (
             'label' => 'LBL_HOT_BUTTONS',
           ),
         ),
-        6 => 
-        array (
-        ),
-        7 => 
+        5 => 
         array (
           0 => 
           array (
@@ -178,11 +173,11 @@ array (
             ),
           ),
         ),
-        8 => 
+        6 => 
         array (
           0 => 'description',
         ),
-        9 => 
+        7 => 
         array (
           0 => 
           array (

@@ -35,10 +35,15 @@ array (
         ),
       ),
       'javascript' => '<script type="text/javascript" language="Javascript">function copyAddressRight(form)  {ldelim} form.alt_address_street.value = form.primary_address_street.value;form.alt_address_city.value = form.primary_address_city.value;form.alt_address_state.value = form.primary_address_state.value;form.alt_address_postalcode.value = form.primary_address_postalcode.value;form.alt_address_country.value = form.primary_address_country.value;return true; {rdelim} function copyAddressLeft(form)  {ldelim} form.primary_address_street.value =form.alt_address_street.value;form.primary_address_city.value = form.alt_address_city.value;form.primary_address_state.value = form.alt_address_state.value;form.primary_address_postalcode.value =form.alt_address_postalcode.value;form.primary_address_country.value = form.alt_address_country.value;return true; {rdelim} </script>',
-      'useTabs' => false,
+      'useTabs' => true,
       'tabDefs' => 
       array (
         'LBL_CONTACT_INFORMATION' => 
+        array (
+          'newTab' => true,
+          'panelDefault' => 'expanded',
+        ),
+        'LBL_EDITVIEW_PANEL1' => 
         array (
           'newTab' => false,
           'panelDefault' => 'expanded',
@@ -48,12 +53,8 @@ array (
           'newTab' => false,
           'panelDefault' => 'expanded',
         ),
-        'LBL_PANEL_ASSIGNMENT' => 
-        array (
-          'newTab' => false,
-          'panelDefault' => 'expanded',
-        ),
       ),
+      'syncDetailEditViews' => true,
     ),
     'panels' => 
     array (
@@ -91,9 +92,6 @@ array (
         ),
         4 => 
         array (
-        ),
-        5 => 
-        array (
           0 => 
           array (
             'name' => 'lead_notes_c',
@@ -107,10 +105,7 @@ array (
             'label' => 'LBL_HOT_BUTTONS',
           ),
         ),
-        6 => 
-        array (
-        ),
-        7 => 
+        5 => 
         array (
           0 => 
           array (
@@ -140,11 +135,11 @@ array (
             ),
           ),
         ),
-        8 => 
+        6 => 
         array (
           0 => 'description',
         ),
-        9 => 
+        7 => 
         array (
           0 => 
           array (
