@@ -119,6 +119,15 @@ array (
         array (
           0 => 
           array (
+            'name' => 'avoid_contact_c',
+            'label' => 'LBL_AVOID_CONTACT',
+          ),
+          1 => '',
+        ),
+        5 => 
+        array (
+          0 => 
+          array (
             'name' => 'contact_notes_c',
             'studio' => 'visible',
             'label' => 'LBL_CONTACT_NOTES',
@@ -130,7 +139,7 @@ array (
             'label' => 'LBL_HOT_BUTTONS',
           ),
         ),
-        5 => 
+        6 => 
         array (
           0 => 
           array (
@@ -145,7 +154,7 @@ array (
             'label' => 'LBL_CONFERENCES_ATTENDED',
           ),
         ),
-        6 => 
+        7 => 
         array (
           0 => 
           array (
@@ -175,7 +184,7 @@ array (
             ),
           ),
         ),
-        7 => 
+        8 => 
         array (
           0 => 
           array (
@@ -183,7 +192,7 @@ array (
             'label' => 'LBL_DESCRIPTION',
           ),
         ),
-        8 => 
+        9 => 
         array (
           0 => 
           array (
