@@ -1,0 +1,29 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 16 Apr, 2018, 7:26:16 PM
+    Author     : erkal
+*/
+.data-offering-module .edit-view-row .label{white-space: normal;line-height: 30px;}
+.large-label.full-label .col-sm-2.label{width:100% !important;}
+.large-label.w30-label .col-sm-2.label{width:30% !important;}
+
+.input_container ul {
+    width: 89%;
+    border: 1px solid #eaeaea;
+    position: absolute;
+    z-index: 9;
+    background: #f3f3f3;
+    list-style: none;
+    border-radius: 5px;
+}
+.input_container ul li {
+    padding: 2px;
+    cursor: pointer;
+}
+.input_container ul li:hover {
+    background: #f08377;
+}

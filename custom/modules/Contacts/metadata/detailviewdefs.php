@@ -199,7 +199,6 @@ array (
             'name' => 'avoid_contact_c',
             'label' => 'LBL_AVOID_CONTACT',
           ),
-          1 => '',
         ),
         5 => 
         array (
@@ -276,6 +275,13 @@ array (
             'label' => 'LBL_POINTS',
           ),
         ),
+        10 => 
+        array (
+          0 => 
+          array (
+            'name' => 'pf_data_offerings_contacts_name',
+          ),
+        ),
       ),
       'lbl_editview_panel1' => 
       array (
@@ -326,7 +332,6 @@ array (
             'name' => 'skype_profile_c',
             'label' => 'LBL_SKYPE_PROFILE',
           ),
-          1 => '',
         ),
         6 => 
         array (
@@ -335,7 +340,6 @@ array (
             'name' => 'upwork_profile_url_c',
             'label' => 'LBL_UPWORK_PROFILE_URL',
           ),
-          1 => '',
         ),
       ),
       'LBL_PANEL_ADVANCED' => 
